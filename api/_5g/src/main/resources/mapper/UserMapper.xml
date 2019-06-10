@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.fate.ssm.mapper.UserMapper">
+
+
+    <resultMap id="userMap" type="cn.fate.ssm.beans.User">
+        <id property="id" column="u_id"/>
+        <result property="sex" column="u_sex"/>
+        <result property="password" column="u_password"/>
+        <result property="username" column="u_username"/>
+        <result property="age" column="u_age"/>
+    </resultMap>
+
+
+    <select id="userQuery" parameterType="cn.fate.ssm.beans.User" resultMap="userMap" >
+        select * from t_user where u_password=#{password} and u_username = #{username}
+    </select>
+</mapper>
