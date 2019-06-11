@@ -25,6 +25,8 @@
     <jackson.version>2.9.9</jackson.version>
     <swagger.version>2.9.2</swagger.version>
     <jedis.version>2.9.2</jedis.version>
+    <fastjson.version>1.2.58</fastjson.version>
+    <aliyun-java-sdk-core.version>4.0.3</aliyun-java-sdk-core.version>
   </properties>
 
   <dependencies>
@@ -127,6 +129,18 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.version}</version>
+    </dependency>
+
+<!--    阿里手机验证码-->
+    <dependency>
+      <groupId>com.aliyun</groupId>
+      <artifactId>aliyun-java-sdk-core</artifactId>
+      <version>${aliyun-java-sdk-core.version}</version>
+    </dependency>
 
   </dependencies>
 

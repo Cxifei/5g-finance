@@ -16,4 +16,20 @@ public interface UserMapper {
      * @return User
      */
     User userQuery(User user);
+
+    /**
+     * 注册验证手机号是否重复
+     *
+     * @param user 构造一个用户信息
+     * @return User
+     */
+    User userQueryByPhone(User user);
+
+    /**
+     * 注册用户
+     *
+     * @param user 用户数据
+     * @return 注册是否成功
+     */
+    int registerUser(User user);
 }

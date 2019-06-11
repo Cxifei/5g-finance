@@ -17,4 +17,19 @@ public interface IUserService {
      * @return User
      */
     User queryUser(User user);
+
+    /**
+     * 注册时验证账户是否重复
+     *
+     * @param user 形成用户
+     * @return 是否重复
+     */
+    User queryUserByPhone(User user);
+
+    /**
+     * 注册用户
+     * @param user 获取注册数据
+     * @return 判断注册是否成功
+     */
+    boolean registerUser(User user);
 }
