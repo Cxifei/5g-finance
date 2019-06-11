@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.fate.ssm.mapper.BillMapper">
+
+
+    <resultMap id="billMapper" type="cn.fate.ssm.beans.Bill">
+        <id property="id" column="f_id"/>
+        <result property="uid" column="u_id"/>
+        <result property="type" column="f_type"/>
+        <result property="address" column="f_address"/>
+        <result property="amount" column="f_amount"/>
+        <result property="instructions" column="f_instructions"/>
+        <result property="valuation" column="f_valuation"/>
+        <result property="rate" column="f_rate"/>
+        <result property="levorprofit" column="f_levorprofit"/>
+        <result property="cycle" column="f_cycle"/>
+        <result property="used" column="f_used"/>
+        <result property="editor" column="f_editor"/>
+        <result property="area" column="f_area"/>
+        <result property="plot" column="f_plot"/>
+        <result property="floorprice" column="f_floorprice"/>
+        <result property="houseprice" column="f_houseprice"/>
+        <result property="creditplus" column="f_creditplus"/>
+        <result property="mortqaqed" column="f_mortqaqed"/>
+        <result property="prototype" column="f_prototype"/>
+        <result property="risk" column="f_risk"/>
+        <result property="commossion" column="f_commossion"/>
+        <result property="jid" column="j_id"/>
+        <result property="uconfirm" column="u_confirm"/>
+        <result property="jconfirm" column="j_confirm"/>
+        <result property="createtime" column="f_createtime"/>
+        <result property="accepttime" column="f_accepttime"/>
+        <result property="status" column="f_status"/>
+
+    </resultMap>
+
+
+</mapper>

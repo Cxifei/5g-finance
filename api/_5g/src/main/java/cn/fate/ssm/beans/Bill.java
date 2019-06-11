@@ -109,11 +109,11 @@ public class Bill implements Serializable {
      */
     private int jid;
     /**
-     *  发单人确认交易状态
+     *  发单人确认交易状态（默认为0，确认之后为1）
      */
     private int uconfirm;
     /**
-     *  接单人确认交易状态
+     *  接单人确认交易状态（默认为0，确认之后为1）
      */
     private int jconfirm;
     /**
