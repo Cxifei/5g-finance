@@ -1,9 +1,6 @@
 package cn.fate.ssm.beans;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
@@ -14,10 +11,6 @@ import java.io.Serializable;
  */
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
-
 public class Bill implements Serializable {
 
     /**
