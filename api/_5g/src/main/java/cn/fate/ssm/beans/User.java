@@ -10,45 +10,9 @@ import lombok.Data;
  */
 @Data
 public class User {
-    /**
-     * 账户
-     */
     private String username;
-    /**
-     * 密码
-     */
     private String password;
-    /**
-     * 账户id
-     */
-    private Long id;
-    /**
-     * 性别
-     */
+    private String id;
+    private String age;
     private String sex;
-    /**
-     * 电话
-     */
-    private Long phone;
-    /**
-     * 身份证号
-     */
-    private String idCard;
-    /**
-     * 公司名
-     */
-    private String company;
-    /**
-     * 用户名
-     */
-    private String name;
-    /**
-     * 用户简介
-     */
-    private String msg;
-    /**
-     * 用户地址
-     */
-    private String address;
-
 }

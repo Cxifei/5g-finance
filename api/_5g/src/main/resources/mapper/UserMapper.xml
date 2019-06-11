@@ -8,18 +8,11 @@
         <result property="sex" column="u_sex"/>
         <result property="password" column="u_password"/>
         <result property="username" column="u_username"/>
-        <result property="phone" column="u_phone"/>
-        <result property="idCard" column="u_idcard"/>
-        <result property="company" column="u_company"/>
-        <result property="name" column="u_name"/>
-        <result property="msg" column="u_msg"/>
-        <result property="address" column="u_address"/>
+        <result property="age" column="u_age"/>
     </resultMap>
 
-<!--用户登陆验证-->
+
     <select id="userQuery" parameterType="cn.fate.ssm.beans.User" resultMap="userMap" >
-        select * from f_user where u_pwd=#{password} and u_username = #{username}
+        select * from t_user where u_password=#{password} and u_username = #{username}
     </select>
-
-
 </mapper>
