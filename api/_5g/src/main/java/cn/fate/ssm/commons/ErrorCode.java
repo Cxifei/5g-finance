@@ -12,6 +12,7 @@ public enum ErrorCode {
     FAIL(500,"操作失败"),
     REQUEST_NOT_FOUND(404,"无法响应"),
     REQUSET_NOT_METHOD(403,"请求类型异常"),
+    FILE_ERROR(410,"文件异常"),
     LOGIN_ERROR(201,"用户名或密码错误");
 
 

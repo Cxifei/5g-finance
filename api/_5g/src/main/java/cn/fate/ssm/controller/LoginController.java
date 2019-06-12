@@ -11,10 +11,7 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 登陆接口
@@ -93,6 +90,9 @@ public class LoginController {
     public ResultData getPhoneCode(User user){
         if (userService.queryUserByPhone(user) == null){
             this.phoneCode= PhoneUtli.phoneCode(user.getPhone() + "");
+            if (phoneCode == null){
+                return ResultData.error();
+            }
             this.phone = user.getPhone();
             return ResultData.success();
         }else {
@@ -132,7 +132,7 @@ public class LoginController {
             }
         }
         return ResultData.error();
-
     }
+
 
 }

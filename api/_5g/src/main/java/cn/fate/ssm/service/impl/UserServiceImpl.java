@@ -35,6 +35,10 @@ public class UserServiceImpl implements IUserService {
         return mapper.userQuery(user);
     }
 
+
+
+
+
     /**
      * 注册时验证账户是否重复
      *
@@ -65,6 +69,17 @@ public class UserServiceImpl implements IUserService {
         user.setPassword(MD5Utli.md52(user.getPassword()));
         System.out.println("开始注册"+user);
         return mapper.registerUser(user)>0;
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param user 输入要修改的用户信息
+     * @return 受影响 的行数
+     */
+    @Override
+    public boolean changeUser(User user) {
+        return mapper.changeUser(user)>0;
     }
 
 

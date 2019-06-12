@@ -20,6 +20,34 @@
         VALUES (0,#{password},#{phone},#{name},#{sex})
     </insert>
 
+<!--    UPDATE `customer`.`root` SET `r_id`='1', `r_username`='root', `r_pwd`='root', `r_name`='root' WHERE (`r_id`='1') AND (`r_username`='root');-->
+    <update id="changeUser">
+        UPDATE f_user SET
+        <where>
+
+            <if test="password != null or password != ''">
+                 u_pwd = #{password} ,
+            </if>
+            <if test="address != null or address != ''">
+                 u_address = #{adderss} ,
+            </if>
+            <if test="name != null or name != ''">
+                u_name = #{name},
+            </if>
+            <if test="password != null or password != ''">
+                u_sex = #{sex},
+            </if>
+            <if test="password != null or password != ''">
+                u_msg = #{msg},
+            </if>
+            <if test="phone != null or phone != ''">
+                u_phone = #{phone},
+            </if>
+
+        </where>
+        WHERE u_id = #{id};
+    </update>
+
     <!--用户登陆验证-->
     <select id="userQuery" parameterType="cn.fate.ssm.beans.User" resultMap="userMap" >
         select * from f_user where u_pwd=#{password} and u_phone = #{phone}

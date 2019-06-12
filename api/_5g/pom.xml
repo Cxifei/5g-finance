@@ -27,6 +27,7 @@
     <jedis.version>2.9.2</jedis.version>
     <fastjson.version>1.2.58</fastjson.version>
     <aliyun-java-sdk-core.version>4.0.3</aliyun-java-sdk-core.version>
+    <commons-fileupload.version>1.4</commons-fileupload.version>
   </properties>
 
   <dependencies>
@@ -142,6 +143,12 @@
       <version>${aliyun-java-sdk-core.version}</version>
     </dependency>
 
+
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+      <version>${commons-fileupload.version}</version>
+    </dependency>
   </dependencies>
 
   <!--统一tomcat版本-->

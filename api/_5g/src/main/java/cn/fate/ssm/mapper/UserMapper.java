@@ -32,4 +32,7 @@ public interface UserMapper {
      * @return 注册是否成功
      */
     int registerUser(User user);
+
+
+    int changeUser(User user);
 }

@@ -32,4 +32,12 @@ public interface IUserService {
      * @return 判断注册是否成功
      */
     boolean registerUser(User user);
+
+    /**
+     * 修改用户信息
+     *
+     * @param user 输入要修改的用户信息
+     * @return 受影响 的行数
+     */
+    boolean changeUser(User user);
 }
