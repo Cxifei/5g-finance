@@ -25,7 +25,7 @@ import java.util.Random;
  */
 
 
-@Api("登陆接口")
+@Api("文件上传接口")
 @Controller
 @CrossOrigin
 @ResponseBody

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-06-11 17:05
  */
 
-@Api("登陆接口")
+@Api("用户中心接口")
 @Controller
 @CrossOrigin
 @ResponseBody

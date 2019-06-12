@@ -13,6 +13,13 @@ public class RedisUtli {
         jedis.close();
         return "ok".equalsIgnoreCase(set);
     }
+    public static boolean addStringCode(String key,String value){
+        Jedis jedis = jedisPool.getResource();
+        String set = jedis.set(key, value);
+        jedis.expire(key,300);
+        jedis.close();
+        return "ok".equalsIgnoreCase(set);
+    }
     public static String getString(String key){
         Jedis resource = jedisPool.getResource();
         String s = resource.get(key);

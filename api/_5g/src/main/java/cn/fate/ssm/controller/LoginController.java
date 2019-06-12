@@ -1,6 +1,7 @@
 package cn.fate.ssm.controller;
 
 import cn.fate.ssm.beans.User;
+import cn.fate.ssm.beans.UserCode;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IUserService;
@@ -29,19 +30,10 @@ public class LoginController {
 
     private IUserService userService;
     /**
-     * 发送的验证码
+     * 验证是否成功
      */
-    private String phoneCode;
+    private final static String VAL_CODE="true";
 
-    /**
-     * 验证码是否正确
-     */
-    private boolean codeTrue;
-
-    /**
-     * 手机号
-     */
-    private Long phone;
 
     @Autowired
     public LoginController(IUserService userService) {
@@ -83,17 +75,17 @@ public class LoginController {
     }
 
     /**
-     * 发送验证码
+     * 发送验证码,5分钟过期
      * @param user 获取手机号
      */
     @RequestMapping(value = "/phoneCode",method = RequestMethod.POST)
     public ResultData getPhoneCode(User user){
         if (userService.queryUserByPhone(user) == null){
-            this.phoneCode= PhoneUtli.phoneCode(user.getPhone() + "");
+            String phoneCode= PhoneUtli.phoneCode(user.getPhone() + "");
             if (phoneCode == null){
                 return ResultData.error();
             }
-            this.phone = user.getPhone();
+            RedisUtli.addStringCode(user.getPhone()+"",phoneCode);
             return ResultData.success();
         }else {
             return ResultData.error();
@@ -106,9 +98,10 @@ public class LoginController {
      * @return 验证码是否相同，返回状态码
      */
     @RequestMapping(value = "/validationCode",method = RequestMethod.POST)
-    public ResultData validationCode(String code){
-        if (phoneCode.equals(code)){
-            codeTrue = true;
+    public ResultData validationCode(UserCode userCode){
+        String phoneCode = RedisUtli.getString(userCode.getUser().getPhone()+"");
+        if (phoneCode.equals(userCode.getCode())){
+            RedisUtli.addString(userCode.getUser().getPhone()+"","true");
             return ResultData.success();
         }else {
             return ResultData.error();
@@ -124,9 +117,7 @@ public class LoginController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResultData register(User user){
         //判断是否验证码通过
-        if (codeTrue){
-            //让注册的手机号和发送验证的手机号一致
-            user.setPhone(phone);
+        if (VAL_CODE.equals(RedisUtli.getString(user.getPhone()+""))){
             if (userService.registerUser(user)){
                 return  ResultData.success();
             }
