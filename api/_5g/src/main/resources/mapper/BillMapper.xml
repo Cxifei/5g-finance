@@ -26,13 +26,37 @@
         <result property="risk" column="f_risk"/>
         <result property="commossion" column="f_commossion"/>
         <result property="jid" column="j_id"/>
-        <result property="uconfirm" column="u_confirm"/>
-        <result property="jconfirm" column="j_confirm"/>
+        <result property="uconfirm" column="u_uconfirm"/>
+        <result property="jconfirm" column="j_jconfirm"/>
         <result property="createtime" column="f_createtime"/>
         <result property="accepttime" column="f_accepttime"/>
         <result property="status" column="f_status"/>
 
     </resultMap>
+    <!--查询最新的20个订单-->
+    <select id="findNewestBill" resultType="cn.fate.ssm.beans.Bill">
+      select * from bill order by f_createtime desc,f_id desc limit 0,20;
+    </select>
+
+    <!--根据id查询订单-->
+    <select id="findById" resultType="cn.fate.ssm.beans.Bill">
+        select * from bill where f_id=#{id};
+    </select>
+
+    <!--根据ID删除订单-->
+    <delete id="cancelBill">
+        delete from bill where f_id=#{id};
+    </delete>
+
+    <!--发单人确认交易-->
+    <update id="issuerConfirm">
+        update bill set u_uconfirm=1 where f_id=#{id};
+    </update>
+
+    <!--接单人确认交易-->
+    <update id="receiverConfirm">
+        update bill set j_jconfirm=1 where f_id=#{id};
+    </update>
 
 
 </mapper>

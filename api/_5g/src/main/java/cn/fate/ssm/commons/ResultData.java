@@ -47,7 +47,6 @@ public class ResultData {
     }
 
 
-
     public int getCode() {
         return code;
     }

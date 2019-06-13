@@ -13,7 +13,14 @@ public enum ErrorCode {
     REQUEST_NOT_FOUND(404,"无法响应"),
     REQUSET_NOT_METHOD(403,"请求类型异常"),
     FILE_ERROR(410,"文件异常"),
-    LOGIN_ERROR(201,"用户名或密码错误");
+    LOGIN_ERROR(201,"用户名或密码错误"),
+
+    DELETE_ERROR(305,"取消订单失败"),
+    TRANSACTION_SUCCESS(300,"交易成功"),
+    TRANSACTION_ERROR(304,"交易失败"),
+    ITRANSACTION_SUCCESS(301,"确认交易成功，等待接单人确认交易"),
+    RTRANSACTION_SUCCESS(302,"确认交易成功，等待发单人确认交易")
+    ;
 
 
     private int code;
