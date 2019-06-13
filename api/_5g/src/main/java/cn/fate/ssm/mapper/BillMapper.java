@@ -45,4 +45,18 @@ public interface BillMapper {
      * @return
      */
     Bill findById(int id);
+
+    /**
+     * 发单人取消交易
+     * @param id
+     * @return
+     */
+    int IcancellationOfTransactions(int id);
+
+    /**
+     * 接单人取消交易
+     * @param id
+     * @return
+     */
+    int RcancellationOfTransactions(int id);
 }

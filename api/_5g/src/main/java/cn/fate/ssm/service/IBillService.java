@@ -45,4 +45,18 @@ public interface IBillService {
      */
     Bill findById(int id);
 
+    /**
+     * 发单人取消交易
+     * @param id
+     * @return
+     */
+    boolean IcancellationOfTransactions(int id);
+
+    /**
+     * 接单人取消交易
+     * @param id
+     * @return
+     */
+    boolean RcancellationOfTransactions(int id);
+
 }

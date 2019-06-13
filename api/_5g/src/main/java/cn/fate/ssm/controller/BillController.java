@@ -59,14 +59,11 @@ public class BillController {
         boolean b = iBillService.issuerConfirm(id);
         if (b){
             if (bill.getJconfirm()==1){
-                System.out.println("发单人确认交易成功");
                 return ResultData.of(ErrorCode.TRANSACTION_SUCCESS);
             }else {
-                System.out.println("等待接单人确认交易");
                 return ResultData.of(ErrorCode.ITRANSACTION_SUCCESS);
             }
         }else{
-            System.out.println("确认交易失败");
             return ResultData.of(ErrorCode.TRANSACTION_ERROR);
         }
     }
@@ -106,7 +103,30 @@ public class BillController {
 
     }
 
+    /**
+     * 发单人取消交易
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "cancelBill")
+    public ResultData IcancellationOfTransactions(int id){
+        boolean b = iBillService.IcancellationOfTransactions(id);
+        return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
+    }
 
+
+    /**
+     * 接单人取消交易
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "cancelBill")
+    public ResultData RcancellationOfTransactions(int id){
+        boolean b = iBillService.RcancellationOfTransactions(id);
+        return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
+    }
 
 
 

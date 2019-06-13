@@ -74,4 +74,14 @@ public class BillServiceImpl implements IBillService {
     public Bill findById(int id) {
         return billMapper.findById(id);
     }
+
+    @Override
+    public boolean IcancellationOfTransactions(int id) {
+        return billMapper.IcancellationOfTransactions(id)>0;
+    }
+
+    @Override
+    public boolean RcancellationOfTransactions(int id) {
+        return billMapper.RcancellationOfTransactions(id)>0;
+    }
 }
