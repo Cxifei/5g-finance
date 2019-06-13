@@ -7,11 +7,14 @@ import cn.fate.ssm.service.IUserService;
 import cn.fate.ssm.utils.RedisUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ResponseHeader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**
@@ -25,6 +28,9 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @CrossOrigin
 @ResponseBody
+@EnableSwagger2
+@Configuration
+
 public class UserController {
     private IUserService service;
     @Autowired
@@ -33,7 +39,8 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/showUser",method = RequestMethod.POST)
+    @ApiImplicitParam(paramType = "header",name = "token")
+    @RequestMapping(value = "/showUser",method = RequestMethod.GET)
     public ResultData showUser(@RequestHeader HttpHeaders headers) {
         String code = headers.getFirst("token");
         if (code == null){
@@ -42,6 +49,8 @@ public class UserController {
         String user = RedisUtli.getString(code);
         return ResultData.of(user);
     }
+
+    @ApiImplicitParam(paramType = "header",name = "token")
     @RequestMapping(value = "/changUser",method = RequestMethod.POST)
     public ResultData changUser(User user,@RequestHeader HttpHeaders headers){
 

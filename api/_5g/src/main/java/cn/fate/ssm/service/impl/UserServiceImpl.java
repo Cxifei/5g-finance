@@ -32,6 +32,7 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public User queryUser(User user) {
+        user.setPassword(MD5Utli.md52(user.getPassword()));
         return mapper.userQuery(user);
     }
 

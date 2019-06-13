@@ -1,5 +1,6 @@
 package cn.fate.ssm.utils;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,5 +39,24 @@ public class StringUtli {
             return true;
         }
         return false;
+    }
+
+
+    //length用户要求产生字符串的长度
+
+    /**
+     *
+     * @param length 随机生成字符串的长度
+     * @return 生成的字符串
+     */
+    public static String getRandomString(int length){
+        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random=new Random();
+        StringBuffer stringBuffer=new StringBuffer();
+        for(int i=0;i<length;i++){
+            int number=random.nextInt(62);
+            stringBuffer.append(str.charAt(number));
+        }
+        return stringBuffer.toString();
     }
 }

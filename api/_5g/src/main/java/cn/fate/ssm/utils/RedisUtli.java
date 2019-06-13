@@ -3,6 +3,9 @@ package cn.fate.ssm.utils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
+/**
+ * @author fate
+ */
 public class RedisUtli {
 
     private static JedisPool jedisPool = new JedisPool();

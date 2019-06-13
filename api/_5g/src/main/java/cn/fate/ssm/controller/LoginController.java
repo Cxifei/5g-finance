@@ -7,9 +7,9 @@ import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IUserService;
 import cn.fate.ssm.utils.PhoneUtli;
 import cn.fate.ssm.utils.RedisUtli;
+import cn.fate.ssm.utils.StringUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +54,8 @@ public class LoginController {
             return ResultData.of(ErrorCode.LOGIN_ERROR);
         }else {
             //随机生成10位的字符串
-            String token = RandomStringUtils.random(10);
+            String token = StringUtli.getRandomString(30);
+            System.out.println(token);
             //将用户信息转为json
             String userMsg = JSON.toJSONString(queryUser);
             //将token和用户信息存入redis

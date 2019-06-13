@@ -21,30 +21,29 @@
     </insert>
 
 <!--    UPDATE `customer`.`root` SET `r_id`='1', `r_username`='root', `r_pwd`='root', `r_name`='root' WHERE (`r_id`='1') AND (`r_username`='root');-->
-    <update id="changeUser">
-        UPDATE f_user SET
-        <where>
+    <update id="changeUser" parameterType="User">
+        UPDATE f_user
+        <trim prefix="set" suffixOverrides=",">
 
-            <if test="password != null or password != ''">
+            <if test="password != null and password != ''">
                  u_pwd = #{password} ,
             </if>
-            <if test="address != null or address != ''">
-                 u_address = #{adderss} ,
+            <if test="address != null and address != ''">
+                 u_address = #{address} ,
             </if>
-            <if test="name != null or name != ''">
+            <if test="name != null and name != ''">
                 u_name = #{name},
             </if>
-            <if test="password != null or password != ''">
+            <if test="password != null and password != ''">
                 u_sex = #{sex},
             </if>
-            <if test="password != null or password != ''">
+            <if test="password != null and password != ''">
                 u_msg = #{msg},
             </if>
-            <if test="phone != null or phone != ''">
+            <if test="phone != null and phone != ''">
                 u_phone = #{phone},
             </if>
-
-        </where>
+        </trim>
         WHERE u_id = #{id};
     </update>
 

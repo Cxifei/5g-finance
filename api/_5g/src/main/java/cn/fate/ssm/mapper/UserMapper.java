@@ -33,6 +33,11 @@ public interface UserMapper {
      */
     int registerUser(User user);
 
-
+    /**
+     *更改用户信息
+     *
+     * @param user 传入用户数据
+     * @return 返回受影响的行数
+     */
     int changeUser(User user);
 }
