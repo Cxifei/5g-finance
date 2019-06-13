@@ -3,6 +3,8 @@ package cn.fate.ssm.service.impl;
 import cn.fate.ssm.beans.Bill;
 import cn.fate.ssm.mapper.BillMapper;
 import cn.fate.ssm.service.IBillService;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ import java.util.List;
  * @author rimi
  * @DATE 2019-06-11 17:26
  */
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class BillServiceImpl implements IBillService {
 
     private BillMapper billMapper;

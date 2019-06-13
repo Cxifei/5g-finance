@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
  * @author fate
  * @date 2019-06-07 15:02
  */
-
 @Api("登陆接口")
 @Controller
 @CrossOrigin

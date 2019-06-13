@@ -7,11 +7,13 @@ import cn.fate.ssm.service.IBillService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -38,13 +40,14 @@ public class BillController {
      * @return
      */
     @ModelAttribute("newestList")
-    public List findNewestBill(){
+    public List findNewestBill(Model model, HttpServletRequest request){
         List<Bill> newestList=iBillService.findNewestBill();
+        model.addAttribute("newestList",newestList);
         return newestList;
     }
 
     /**
-     * 接单人确认交易
+     * 发单人确认交易
      * @param id
      * @return
      */
@@ -56,17 +59,20 @@ public class BillController {
         boolean b = iBillService.issuerConfirm(id);
         if (b){
             if (bill.getJconfirm()==1){
+                System.out.println("发单人确认交易成功");
                 return ResultData.of(ErrorCode.TRANSACTION_SUCCESS);
             }else {
+                System.out.println("等待接单人确认交易");
                 return ResultData.of(ErrorCode.ITRANSACTION_SUCCESS);
             }
         }else{
+            System.out.println("确认交易失败");
             return ResultData.of(ErrorCode.TRANSACTION_ERROR);
         }
     }
 
     /**
-     * 发单人确认交易
+     * 接单人确认交易
      * @param id
      * @return
      */

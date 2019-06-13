@@ -34,12 +34,12 @@
 
     </resultMap>
     <!--查询最新的20个订单-->
-    <select id="findNewestBill" resultType="cn.fate.ssm.beans.Bill">
+    <select id="findNewestBill"  resultMap="billMapper">
       select * from bill order by f_createtime desc,f_id desc limit 0,20;
     </select>
 
     <!--根据id查询订单-->
-    <select id="findById" resultType="cn.fate.ssm.beans.Bill">
+    <select id="findById" resultMap="billMapper">
         select * from bill where f_id=#{id};
     </select>
 

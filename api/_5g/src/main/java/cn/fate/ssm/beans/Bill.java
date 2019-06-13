@@ -14,9 +14,6 @@ import java.io.Serializable;
  */
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
 
 public class Bill implements Serializable {
 
