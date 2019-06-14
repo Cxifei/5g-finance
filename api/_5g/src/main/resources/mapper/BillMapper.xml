@@ -59,12 +59,12 @@
     </update>
 
     <!--发单人取消交易-->
-    <update id="RcancellationOfTransactions">
+    <update id="IcancellationOfTransactions">
         update bill set u_uconfirm=0 where f_id=#{id};
     </update>
 
     <!--接单人取消交易-->
-    <update id="IcancellationOfTransactions">
+    <update id="RcancellationOfTransactions">
         update bill set j_jconfirm=0 where f_id=#{id};
     </update>
 

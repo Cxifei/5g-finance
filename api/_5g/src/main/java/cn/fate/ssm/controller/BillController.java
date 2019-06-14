@@ -8,10 +8,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -52,7 +49,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/issuerConfirm")
+    @RequestMapping(value = "/issuerConfirm",method = RequestMethod.POST)
     public ResultData issuerConfirm(int id){
 
         Bill bill = iBillService.findById(id);
@@ -74,7 +71,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/receiverConfirm")
+    @RequestMapping(value = "/receiverConfirm",method = RequestMethod.POST)
     public ResultData receiverConfirm(int id){
 
         Bill bill = iBillService.findById(id);
@@ -96,7 +93,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "cancelBill")
+    @RequestMapping(value = "cancelBill",method = RequestMethod.POST)
     public ResultData cancelBill(int id){
         boolean b = iBillService.cancelBill(id);
         return b?ResultData.success():ResultData.of(ErrorCode.DELETE_ERROR);
@@ -109,7 +106,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "cancelBill")
+    @RequestMapping(value = "iCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData IcancellationOfTransactions(int id){
         boolean b = iBillService.IcancellationOfTransactions(id);
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
@@ -122,7 +119,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "cancelBill")
+    @RequestMapping(value = "rCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData RcancellationOfTransactions(int id){
         boolean b = iBillService.RcancellationOfTransactions(id);
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
