@@ -11,6 +11,14 @@ import java.util.List;
  */
 public interface IBillService {
 
+
+    /**
+     * 根据贷款类型查询相关订单
+     * @param type
+     * @return
+     */
+    List<Bill> findBillListByType(String type);
+
     /**
      * 查询最新的20个订单
      * @return
@@ -72,5 +80,6 @@ public interface IBillService {
      * @return
      */
     List<Bill> myReceipt(int id);
+
 
 }

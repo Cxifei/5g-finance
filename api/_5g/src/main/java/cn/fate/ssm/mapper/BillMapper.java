@@ -12,6 +12,16 @@ import java.util.List;
  */
 public interface BillMapper {
 
+
+
+    /**
+     * 根据贷款类型查询相关订单
+     *
+     * @param type
+     * @return
+     */
+    List<Bill> selectBillListByType(String type);
+
     /**
      * 获取最新的20个订单
      * @return
@@ -66,6 +76,7 @@ public interface BillMapper {
      * @return
      */
     List<Bill> myInvoice(int id);
+
 
     /**
      * 用户借取的单子

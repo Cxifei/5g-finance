@@ -4,6 +4,7 @@ import cn.fate.ssm.beans.Bill;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IBillService;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,21 @@ public class BillController {
         this.iBillService=billService;
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)
+    public ResultData findBillListByType(@RequestParam("type") String type){
+
+        List<Bill> billList = iBillService.findBillListByType(type);
+
+        if (billList == null || billList.size() == 0){
+            return ResultData.of(ErrorCode.FAIL);
+        }else{
+            //将用户信息转为json并返回
+            String billListJson = JSON.toJSONString(billList);
+            return ResultData.of(billListJson);
+        }
+
+    }
 
     /**
      * 获取最新的20个订单

@@ -33,6 +33,13 @@
         <result property="status" column="f_status"/>
 
     </resultMap>
+
+    <!--根据贷款类型查询相关订单-->
+    <select id="selectBillListByType" resultMap="billMapper">
+        select * from bill where f_type = #{type};
+    </select>
+
+
     <!--查询最新的20个订单-->
     <select id="findNewestBill"  resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
       select * from financial.bill where j_id=-1 and f_status=2 order by f_createtime desc,f_id desc limit 0,20;

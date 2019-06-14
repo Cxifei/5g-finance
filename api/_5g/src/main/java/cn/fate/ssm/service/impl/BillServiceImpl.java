@@ -25,6 +25,17 @@ public class BillServiceImpl implements IBillService {
     }
 
     /**
+     * 根据贷款类型查询相关订单
+     *
+     * @param type
+     * @return
+     */
+    @Override
+    public List<Bill> findBillListByType(String type) {
+        return billMapper.selectBillListByType(type);
+    }
+
+    /**
      * 查询最新的20个订单
      * @return
      */
