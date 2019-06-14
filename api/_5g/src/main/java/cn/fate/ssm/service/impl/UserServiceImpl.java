@@ -80,6 +80,9 @@ public class UserServiceImpl implements IUserService {
      */
     @Override
     public boolean changeUser(User user) {
+        if (user.getPassword()!=null&& !"".equals(user.getPassword())){
+          user.setPassword(MD5Utli.md52(user.getPassword()));
+        }
         return mapper.changeUser(user)>0;
     }
 

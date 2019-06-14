@@ -9,21 +9,31 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2019-06-12 14:10
  */
 public class UserCode {
-    private User user;
+    private String phone;
     private String code;
-    public UserCode(User user, String code) {
-        this.user = user;
+
+
+    public UserCode(String user, String code) {
+        this.phone = phone;
         this.code = code;
     }
     public UserCode() {
     }
 
-    public User getUser() {
-        return user;
+    @Override
+    public String toString() {
+        return "UserCode{" +
+                "phone='" + phone + '\'' +
+                ", code='" + code + '\'' +
+                '}';
     }
-    @Autowired
-    public void setUser(User user) {
-        this.user = user;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getCode() {

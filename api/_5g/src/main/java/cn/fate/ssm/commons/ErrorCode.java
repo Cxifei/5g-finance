@@ -14,6 +14,7 @@ public enum ErrorCode {
     REQUSET_NOT_METHOD(403,"请求类型异常"),
     FILE_ERROR(410,"文件异常"),
     LOGIN_ERROR(201,"用户名或密码错误"),
+    CODE_ERROR(203,"输入验证码错误"),
 
     DELETE_ERROR(305,"取消订单失败"),
     TRANSACTION_SUCCESS(300,"交易成功"),

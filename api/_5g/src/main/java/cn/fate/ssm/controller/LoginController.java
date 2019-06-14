@@ -99,12 +99,19 @@ public class LoginController {
      */
     @RequestMapping(value = "/validationCode",method = RequestMethod.POST)
     public ResultData validationCode(UserCode userCode){
-        String phoneCode = RedisUtli.getString(userCode.getUser().getPhone()+"");
-        if (phoneCode.equals(userCode.getCode())){
-            RedisUtli.addString(userCode.getUser().getPhone()+"","true");
+        System.out.println(userCode);
+
+        String phoneCode = RedisUtli.getString(userCode.getPhone());
+
+        if (phoneCode == null) {
+            return ResultData.of(ErrorCode.FAIL);
+        }
+
+        if (userCode.getCode().equals(phoneCode)){
+            RedisUtli.addString(userCode.getPhone(),"true");
             return ResultData.success();
         }else {
-            return ResultData.error();
+            return ResultData.of(ErrorCode.CODE_ERROR);
         }
     }
 
@@ -116,6 +123,7 @@ public class LoginController {
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResultData register(User user){
+        System.out.println(user);
         //判断是否验证码通过
         if (VAL_CODE.equals(RedisUtli.getString(user.getPhone()+""))){
             if (userService.registerUser(user)){

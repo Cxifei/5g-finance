@@ -40,19 +40,21 @@ public class UserController {
 
 
     @ApiImplicitParam(paramType = "header",name = "token")
-    @RequestMapping(value = "/showUser",method = RequestMethod.GET)
+    @RequestMapping(value = "/showUser")
     public ResultData showUser(@RequestHeader HttpHeaders headers) {
         String code = headers.getFirst("token");
+        System.out.println(code);
         if (code == null){
             return ResultData.of(ErrorCode.FAIL);
         }
         String user = RedisUtli.getString(code);
-        return ResultData.of(user);
+        User user1 = JSON.parseObject(user, User.class);
+        return ResultData.of(user1);
     }
 
     @ApiImplicitParam(paramType = "header",name = "token")
-    @RequestMapping(value = "/changUser",method = RequestMethod.POST)
-    public ResultData changUser(User user,@RequestHeader HttpHeaders headers){
+    @RequestMapping(value = "/changeUser",method = RequestMethod.POST)
+    public ResultData changeUser(User user,@RequestHeader HttpHeaders headers){
 
         String code = headers.getFirst("token");
 
