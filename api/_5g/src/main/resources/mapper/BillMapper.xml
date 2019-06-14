@@ -34,38 +34,48 @@
 
     </resultMap>
     <!--查询最新的20个订单-->
-    <select id="findNewestBill"  resultMap="billMapper">
-      select * from bill where u_id=-1 and f_status=2 order by f_createtime desc,f_id desc limit 0,20;
+    <select id="findNewestBill"  resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
+      select * from financial.bill where j_id=-1 and f_status=2 order by f_createtime desc,f_id desc limit 0,20;
     </select>
 
     <!--根据id查询订单-->
     <select id="findById" resultMap="billMapper">
-        select * from bill where f_id=#{id};
+        select * from financial.bill where f_id=#{id};
+    </select>
+
+    <!--根据用户ID查询用户发布的订单-->
+    <select id="myInvoice" resultType="cn.fate.ssm.beans.Bill">
+
+    </select>
+
+    <!--根据用户ID查询用户接取的订单-->
+    <select id="myReceipt" resultType="cn.fate.ssm.beans.Bill">
+
     </select>
 
     <!--根据ID删除订单-->
     <delete id="cancelBill">
-        delete from bill where f_id=#{id};
+        delete from financial.bill where f_id=#{id};
     </delete>
 
     <!--发单人确认交易-->
     <update id="issuerConfirm">
-        update bill set u_uconfirm=1 where f_id=#{id};
+        update financial.bill set u_uconfirm=1 where f_id=#{id};
     </update>
 
     <!--接单人确认交易-->
     <update id="receiverConfirm">
-        update bill set j_jconfirm=1 where f_id=#{id};
+        update financial.bill set j_jconfirm=1 where f_id=#{id};
     </update>
 
     <!--发单人取消交易-->
     <update id="IcancellationOfTransactions">
-        update bill set u_uconfirm=0 where f_id=#{id};
+        update financial.bill set u_uconfirm=0 where f_id=#{id};
     </update>
 
     <!--接单人取消交易-->
     <update id="RcancellationOfTransactions">
-        update bill set j_jconfirm=0 where f_id=#{id};
+        update financial.bill set j_jconfirm=0 where f_id=#{id};
     </update>
 
 

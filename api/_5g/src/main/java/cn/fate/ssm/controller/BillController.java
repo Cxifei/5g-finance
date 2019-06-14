@@ -93,7 +93,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "cancelBill",method = RequestMethod.POST)
+    @RequestMapping(value = "/cancelBill",method = RequestMethod.POST)
     public ResultData cancelBill(int id){
         boolean b = iBillService.cancelBill(id);
         return b?ResultData.success():ResultData.of(ErrorCode.DELETE_ERROR);
@@ -106,7 +106,7 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "iCancellationOfTransactions",method = RequestMethod.POST)
+    @RequestMapping(value = "/iCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData IcancellationOfTransactions(int id){
         boolean b = iBillService.IcancellationOfTransactions(id);
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
@@ -119,11 +119,13 @@ public class BillController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "rCancellationOfTransactions",method = RequestMethod.POST)
+    @RequestMapping(value = "/rCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData RcancellationOfTransactions(int id){
         boolean b = iBillService.RcancellationOfTransactions(id);
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
     }
+
+
 
 
 

@@ -60,5 +60,17 @@ public interface BillMapper {
      */
     int RcancellationOfTransactions(int id);
 
+    /**
+     * 用户发布的单子
+     * @param id
+     * @return
+     */
+    List<Bill> myInvoice(int id);
 
+    /**
+     * 用户借取的单子
+     * @param id
+     * @return
+     */
+    List<Bill> myReceipt(int id);
 }

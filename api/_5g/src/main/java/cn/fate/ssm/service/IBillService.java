@@ -59,5 +59,18 @@ public interface IBillService {
      */
     boolean RcancellationOfTransactions(int id);
 
+    /**
+     * 用户的发单
+     * @param id
+     * @return
+     */
+    List<Bill> myInvoice(int id);
+
+    /**
+     * 用户的接单
+     * @param id
+     * @return
+     */
+    List<Bill> myReceipt(int id);
 
 }
