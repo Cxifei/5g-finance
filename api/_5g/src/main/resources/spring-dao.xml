@@ -5,6 +5,10 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 <!--    这个标签只能配置一次-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!--配置扫描器，扫描搜索数据层的相关包-->
+    <context:component-scan base-package="cn.fate.ssm.dao"/>
+
     <!--       加载驱动-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -21,13 +25,13 @@
         <property name="mapperLocations" value="classpath:mapper/*Mapper.xml"/>
     </bean>
 
-<!--    <bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">-->
-<!--        <constructor-arg ref="sessionFactory"/>-->
-<!--    </bean>-->
-
 <!--    创建注入器，映射Mapper接口-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="configurer">
         <property name="basePackage" value="cn.fate.ssm.mapper"/>
     </bean>
 
+    <!--配置solrJ服务器-->
+    <bean id="solrServer" class="org.apache.solr.client.solrj.impl.HttpSolrServer">
+        <constructor-arg value="http://localhost:8080/solr/collection1"/>
+    </bean>
 </beans>
