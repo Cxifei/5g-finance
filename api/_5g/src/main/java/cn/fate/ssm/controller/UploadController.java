@@ -88,8 +88,8 @@ public class UploadController {
 
 
     @RequestMapping(value = "/validationIdCard",method = RequestMethod.POST)
-    public ResultData validationIdCard(@RequestHeader HttpHeaders headers,String baseImg){
-        System.out.println(baseImg);
+    public ResultData validationIdCard(@RequestHeader HttpHeaders headers,@RequestBody String baseImg){
+
         //获取token
         String token = headers.getFirst("token");
         if (token == null){
@@ -117,7 +117,7 @@ public class UploadController {
             System.out.println(user);
 
             if (service.changeUser(user)){
-                return ResultData.success();
+                return ResultData.of(user);
             }else {
                 return ResultData.error();
             }

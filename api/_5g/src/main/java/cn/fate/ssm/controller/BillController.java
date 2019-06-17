@@ -1,18 +1,23 @@
 package cn.fate.ssm.controller;
 
 import cn.fate.ssm.beans.Bill;
+import cn.fate.ssm.beans.User;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IBillService;
+import cn.fate.ssm.utils.GetUserByToken;
 import cn.fate.ssm.utils.RedisUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.service.Header;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,9 +30,11 @@ import java.util.List;
 @Api("订单接口")
 @Controller
 @CrossOrigin
+@ResponseBody
 public class BillController {
 
     private IBillService iBillService;
+    private static final String BILL_TYPE = "过桥";
 
     @Autowired
     public BillController(IBillService billService){
@@ -40,15 +47,19 @@ public class BillController {
      * @param bill 需要添加的订单信息
      * @return 返回添加是否成功
      */
-    @RequestMapping(value = "/addBill",method = RequestMethod.POST)
-    public ResultData addBill(Bill bill){
 
-        String token = RedisUtli.getString("token");
-        System.out.println(token);
+    @RequestMapping(value = "/addBill",method = RequestMethod.POST)
+    public ResultData addBill(@RequestHeader HttpHeaders headers,Bill bill){
+        User userByToken = GetUserByToken.getUserByToken(headers);
+        if (userByToken == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        bill.setUid(userByToken.getId().intValue());
         boolean b = false;
         boolean b2 = true;
-        Date d = new Date();
-        bill.setCreatetime(d.toString());
+
+
+        bill.setCreatetime("2019-06-17");
         if(bill.getType() != null && !"".equals(bill.getType())){
             b = bill.getAddress() != null && !"".equals(bill.getAddress())
                     && bill.getAmount() != null && !"".equals(bill.getAmount())
@@ -59,15 +70,12 @@ public class BillController {
                     && bill.getRisk() != null && !"".equals(bill.getRisk())
                     && bill.getCommossion() != null && !"".equals(bill.getCommossion())
             ;
-            if(bill.getType().equals("过桥")){
+            if(BILL_TYPE.equals(bill.getType())){
                 b2 = true;
             }
         }
-
         if(b && b2) {
-            boolean isok = iBillService.addBill(bill);
-            System.out.println(isok);
-            if (isok) {
+            if (iBillService.addBill(bill)) {
                 return ResultData.success();
             }
         }
@@ -94,7 +102,6 @@ public class BillController {
         }
         return ResultData.of(ErrorCode.CHECKBILL_ERROR);
     }
-    @ResponseBody
     @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)
     public ResultData findBillListByType(@RequestParam("type") String type){
 
@@ -103,9 +110,8 @@ public class BillController {
         if (billList == null || billList.size() == 0){
             return ResultData.of(ErrorCode.FAIL);
         }else{
-            //将用户信息转为json并返回
-            String billListJson = JSON.toJSONString(billList);
-            return ResultData.of(billListJson);
+            //将用户信息转为json并返回String billListJson = JSON.toJSONString(billList);
+            return ResultData.of(billList);
         }
 
     }
@@ -114,11 +120,10 @@ public class BillController {
      * 获取最新的20个订单
      * @return
      */
-    @ModelAttribute("newestList")
-    public List findNewestBill(Model model, HttpServletRequest request){
+    @RequestMapping(value = "/findNewestBill",method = RequestMethod.GET)
+    public ResultData findNewestBill(){
         List<Bill> newestList=iBillService.findNewestBill();
-        model.addAttribute("newestList",newestList);
-        return newestList;
+        return ResultData.of(newestList);
     }
 
     /**
@@ -126,7 +131,7 @@ public class BillController {
      * @param id
      * @return
      */
-    @ResponseBody
+
     @RequestMapping(value = "/issuerConfirm",method = RequestMethod.POST)
     public ResultData issuerConfirm(int id){
 
@@ -148,7 +153,7 @@ public class BillController {
      * @param id
      * @return
      */
-    @ResponseBody
+
     @RequestMapping(value = "/receiverConfirm",method = RequestMethod.POST)
     public ResultData receiverConfirm(int id){
 
@@ -170,7 +175,6 @@ public class BillController {
      * @param id
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/cancelBill",method = RequestMethod.POST)
     public ResultData cancelBill(int id){
         boolean b = iBillService.cancelBill(id);
@@ -183,7 +187,6 @@ public class BillController {
      * @param id
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/iCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData IcancellationOfTransactions(int id){
         boolean b = iBillService.IcancellationOfTransactions(id);
@@ -196,13 +199,45 @@ public class BillController {
      * @param id
      * @return
      */
-    @ResponseBody
     @RequestMapping(value = "/rCancellationOfTransactions",method = RequestMethod.POST)
     public ResultData RcancellationOfTransactions(int id){
         boolean b = iBillService.RcancellationOfTransactions(id);
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
     }
 
+    /**
+     * 用户的发单
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/myInvoice",method =RequestMethod.GET)
+    public ResultData myInvoice(@RequestHeader HttpHeaders header){
+        User userByToken = GetUserByToken.getUserByToken(header);
+        if (userByToken == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        int id=userByToken.getId().intValue();
+        List<Bill> list=iBillService.myInvoice(id);
+        return ResultData.of(list);
+
+
+    }
+
+    /**
+     * 用户的接单
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/myReceipt",method =RequestMethod.GET)
+    public ResultData myReceipt(@RequestHeader HttpHeaders header){
+        User userByToken = GetUserByToken.getUserByToken(header);
+        if (userByToken == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        int id=userByToken.getId().intValue();
+        List<Bill> list=iBillService.myReceipt(id);
+        return ResultData.of(list);
+    }
 
 
 

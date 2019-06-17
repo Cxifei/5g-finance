@@ -6,6 +6,7 @@
     <resultMap id="billMapper" type="cn.fate.ssm.beans.Bill">
         <id property="id" column="f_id"/>
         <result property="uid" column="u_id"/>
+        <result property="username" column="u_name"/>
         <result property="type" column="f_type"/>
         <result property="address" column="f_address"/>
         <result property="amount" column="f_amount"/>
@@ -50,28 +51,29 @@
     </update>
     <!--根据贷款类型查询相关订单-->
     <select id="selectBillListByType" resultMap="billMapper">
-        select * from bill where f_type = #{type};
+        select b.*,u.u_name from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type};
     </select>
 
 
     <!--查询最新的20个订单-->
     <select id="findNewestBill"  resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
-      select * from financial.bill where j_id=-1 and f_status=2 order by f_createtime desc,f_id desc limit 0,20;
+      select * from financial.bill inner join f_user on bill.u_id=f_user.u_id where bill.j_id=-1 and bill.f_status=2 order by bill.f_createtime desc,bill.f_id desc limit 0,20;
     </select>
 
     <!--根据id查询订单-->
     <select id="findById" resultMap="billMapper">
-        select * from financial.bill where f_id=#{id};
+        select * from financial.bill where bill.f_id=#{id};
     </select>
 
     <!--根据用户ID查询用户发布的订单-->
-    <select id="myInvoice" resultType="cn.fate.ssm.beans.Bill">
+    <select id="myInvoice" resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
+    SELECT * FROM bill inner join  f_user on bill.u_id=f_user.u_id WHERE bill.u_id=#{id}
 
     </select>
 
     <!--根据用户ID查询用户接取的订单-->
-    <select id="myReceipt" resultType="cn.fate.ssm.beans.Bill">
-
+    <select id="myReceipt" resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
+        SELECT * FROM bill inner join  f_user on bill.u_id=f_user.u_id WHERE bill.j_id=#{id}
     </select>
 
     <!--根据ID删除订单-->

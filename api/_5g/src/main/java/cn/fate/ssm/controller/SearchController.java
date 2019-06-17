@@ -51,8 +51,7 @@ public class SearchController {
             return ResultData.of(ErrorCode.FAIL);
         }else{
             //将用户信息转为json并返回
-            String billListJson = JSON.toJSONString(billList);
-            return ResultData.of(billListJson);
+            return ResultData.of(billList);
         }
 
     }

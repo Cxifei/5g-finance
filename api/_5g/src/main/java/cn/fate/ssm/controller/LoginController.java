@@ -6,6 +6,7 @@ import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IUserService;
 import cn.fate.ssm.utils.PhoneUtli;
 import cn.fate.ssm.utils.RedisUtli;
+import cn.fate.ssm.utils.StringUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -59,13 +60,16 @@ public class LoginController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResultData login(User user){
-        User queryUser = userService.queryUser(user);
 
+        System.out.println("登陆用户原始数据"+user);
+        User queryUser = userService.queryUser(user);
+        System.out.println("查询的用户信息"+queryUser);
         if (queryUser == null){
             return ResultData.of(ErrorCode.LOGIN_ERROR);
         }else {
             //随机生成10位的字符串
-            String token = RandomStringUtils.random(10);
+            String token = StringUtli.getRandomString(30);
+            System.out.println(token);
             //将用户信息转为json
             String userMsg = JSON.toJSONString(queryUser);
             //将token和用户信息存入redis
