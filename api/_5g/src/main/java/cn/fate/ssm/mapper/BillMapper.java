@@ -79,7 +79,7 @@ public interface BillMapper {
 
 
     /**
-     * 用户借取的单子
+     * 用户接取的单子
      * @param id
      * @return
      */
