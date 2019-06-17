@@ -36,18 +36,19 @@
             <if test="msg != null and msg != ''">
                 u_msg = #{msg} ,
             </if>
+            <if test="idCard != null and idCard != ''">
+                u_idCard = #{idCard} ,
+            </if>
             <if test="address != null and address != ''">
                  u_address = #{address} ,
             </if>
             <if test="name != null and name != ''">
                 u_name = #{name},
             </if>
-            <if test="password != null and password != ''">
+            <if test="sex != null and sex != ''">
                 u_sex = #{sex},
             </if>
-            <if test="password != null and password != ''">
-                u_msg = #{msg},
-            </if>
+
             <if test="phone != null and phone != ''">
                 u_phone = #{phone},
             </if>

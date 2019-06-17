@@ -88,7 +88,8 @@ public class UploadController {
 
 
     @RequestMapping(value = "/validationIdCard",method = RequestMethod.POST)
-    public ResultData validationIdCard(String baseImg,@RequestHeader HttpHeaders headers){
+    public ResultData validationIdCard(@RequestHeader HttpHeaders headers,String baseImg){
+        System.out.println(baseImg);
         //获取token
         String token = headers.getFirst("token");
         if (token == null){
@@ -97,10 +98,8 @@ public class UploadController {
         //获取正在登陆的用户的信息
         User user = JSON.parseObject(RedisUtli.getString(token), User.class);
         JSONObject jsonObject = RequestBaiduUtli.requestBaidu(baseImg);
+        System.out.println(jsonObject);
         if (RequestBaiduUtli.validationIsOk(jsonObject)){
-            //这里还要获取值，修改数据
-            //---------------------
-            System.out.println(jsonObject);
 
             JSONObject wordsResult = jsonObject.getJSONObject("words_result");
 
@@ -115,7 +114,7 @@ public class UploadController {
             user.setName(name);
             //更改为已经认证
             user.setValidation("1");
-
+            System.out.println(user);
 
             if (service.changeUser(user)){
                 return ResultData.success();
@@ -124,6 +123,7 @@ public class UploadController {
             }
             //---------------------
         }else {
+            System.out.println("认证失败");
             return ResultData.of(ErrorCode.FILE_ERROR);
         }
     }

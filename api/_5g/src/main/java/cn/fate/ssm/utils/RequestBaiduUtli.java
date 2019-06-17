@@ -19,6 +19,10 @@ public class RequestBaiduUtli {
      * @return json的对象
      */
     public static JSONObject requestBaidu(String baseImg){
+        baseImg = baseImg.replaceAll("\r\n","");
+        baseImg = baseImg.replaceAll("\\+","%2B");
+
+
         //百度云的文字识别接口,后面参数为获取到的token
         String httpUrl=" https://aip.baidubce.com/rest/2.0/ocr/v1/idcard?access_token="+ BaiduOcr.getAuth();
         String httpArg = "detect_direction=true&id_card_side=front&image="+baseImg;
