@@ -32,6 +32,12 @@ public class BillController {
         this.iBillService=billService;
     }
 
+
+    /**
+     * 分类查询订单
+     * @param type
+     * @return
+     */
     @ResponseBody
     @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)
     public ResultData findBillListByType(@RequestParam("type") String type){
