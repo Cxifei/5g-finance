@@ -1,10 +1,6 @@
 package cn.fate.ssm.beans;
 
-import io.swagger.models.auth.In;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import java.io.Serializable;
 
@@ -25,9 +21,9 @@ public class Bill implements Serializable {
     /**
      * 用户id
      */
-    private Integer uid;
+    private int uid;
     /**
-     * 用户名
+     *  用户姓名
      */
     private String username;
     /**
@@ -73,7 +69,7 @@ public class Bill implements Serializable {
     /**
      *  房屋面积
      */
-    private Double area;
+    private double area;
     /**
      *  房屋容积率
      */
@@ -81,11 +77,11 @@ public class Bill implements Serializable {
     /**
      *  房屋楼面价
      */
-    private Double floorprice;
+    private double floorprice;
     /**
      *  房价
      */
-    private Double houseprice;
+    private double houseprice;
     /**
      *  征信/票据方式/房地产获得方式
      */
@@ -109,7 +105,7 @@ public class Bill implements Serializable {
     /**
      *  接单人id
      */
-    private Integer jid;
+    private int jid;
     /**
      *  发单人确认交易状态（默认为0，确认之后为1）
      */
@@ -129,6 +125,6 @@ public class Bill implements Serializable {
     /**
      *  单据状态(默认为未审核 0，审核未通过 1，审核通过 2)
      */
-    private Integer status;
+    private int status;
 
 }

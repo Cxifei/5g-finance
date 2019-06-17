@@ -4,6 +4,7 @@ import cn.fate.ssm.beans.Bill;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IBillService;
+import cn.fate.ssm.utils.RedisUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,12 +34,66 @@ public class BillController {
         this.iBillService=billService;
     }
 
-
     /**
-     * 分类查询订单
-     * @param type
-     * @return
+     * 新建订单
+     *
+     * @param bill 需要添加的订单信息
+     * @return 返回添加是否成功
      */
+    @RequestMapping(value = "/addBill",method = RequestMethod.POST)
+    public ResultData addBill(Bill bill){
+
+        String token = RedisUtli.getString("token");
+        System.out.println(token);
+        boolean b = false;
+        boolean b2 = true;
+        Date d = new Date();
+        bill.setCreatetime(d.toString());
+        if(bill.getType() != null && !"".equals(bill.getType())){
+            b = bill.getAddress() != null && !"".equals(bill.getAddress())
+                    && bill.getAmount() != null && !"".equals(bill.getAmount())
+                    && bill.getRate() != null && !"".equals(bill.getRate())
+                    && bill.getCycle() != null && !"".equals(bill.getCycle())
+                    && bill.getCreditplus() != null && !"".equals(bill.getCreditplus())
+                    && bill.getPrototype() != null && !"".equals(bill.getPlot())
+                    && bill.getRisk() != null && !"".equals(bill.getRisk())
+                    && bill.getCommossion() != null && !"".equals(bill.getCommossion())
+            ;
+            if(bill.getType().equals("过桥")){
+                b2 = true;
+            }
+        }
+
+        if(b && b2) {
+            boolean isok = iBillService.addBill(bill);
+            System.out.println(isok);
+            if (isok) {
+                return ResultData.success();
+            }
+        }
+        return ResultData.of(ErrorCode.SAVEBILL_ERROR);
+    }
+
+    @RequestMapping(value = "/acceptBill",method = RequestMethod.POST)
+    public ResultData acceptBill(int id, int uid){
+        boolean isok = iBillService.acceptBill(id,uid);
+        if(isok){
+            return ResultData.success();
+        }
+        return ResultData.of(ErrorCode.ACCEPTBILL_ERROR);
+    }
+
+    @RequestMapping(value = "/checkBill",method = RequestMethod.POST)
+    public ResultData checkBill(int id, int status){
+
+        if(status == 1 || status == 2) {
+            boolean isok = iBillService.checkBill(id, status);
+            if (isok) {
+                return ResultData.success();
+            }
+        }
+        return ResultData.of(ErrorCode.CHECKBILL_ERROR);
+    }
     @ResponseBody
     @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)
     public ResultData findBillListByType(@RequestParam("type") String type){

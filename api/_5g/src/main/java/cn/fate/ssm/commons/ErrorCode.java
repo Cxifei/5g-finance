@@ -21,8 +21,12 @@ public enum ErrorCode {
     TRANSACTION_SUCCESS(300,"交易成功"),
     TRANSACTION_ERROR(304,"交易失败"),
     ITRANSACTION_SUCCESS(301,"确认交易成功，等待接单人确认交易"),
-    RTRANSACTION_SUCCESS(302,"确认交易成功，等待发单人确认交易")
+    RTRANSACTION_SUCCESS(302,"确认交易成功，等待发单人确认交易"),
+    SAVEBILL_ERROR(500,"创建订单失败"),
+    ACCEPTBILL_ERROR(500,"接单失败"),
+    CHECKBILL_ERROR(500,"审核单据失败")
     ;
+
 
 
     private int code;

@@ -1,11 +1,12 @@
 package cn.fate.ssm.mapper;
 
 import cn.fate.ssm.beans.Bill;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 订单
+ * 订单映射
  *
  * @author rimi
  * @DATE 2019-06-11 16:23
@@ -84,4 +85,27 @@ public interface BillMapper {
      * @return
      */
     List<Bill> myReceipt(int id);
+
+    /**
+     *
+     * @param bill 订单
+     * @return 是否添加成功
+     */
+    boolean addBill(Bill bill);
+
+    /**
+     *
+     * @param id 订单id
+     * @param uid 接单用户id
+     * @return 是否接单成功
+     */
+    boolean acceptBill(@Param("id") int id, @Param("uid") int uid);
+
+    /**
+     * @param id 订单id
+     * @param status 审核后的订单状态 1表示审核未通过，2表示审核通过
+     * @return 单据是否审核成功
+     */
+
+    boolean checkBill(@Param("id") int id, @Param("status") int status);
 }

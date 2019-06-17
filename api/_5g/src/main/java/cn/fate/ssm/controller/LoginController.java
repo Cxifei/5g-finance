@@ -1,18 +1,20 @@
 package cn.fate.ssm.controller;
 
 import cn.fate.ssm.beans.User;
-import cn.fate.ssm.beans.UserCode;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IUserService;
 import cn.fate.ssm.utils.PhoneUtli;
 import cn.fate.ssm.utils.RedisUtli;
-import cn.fate.ssm.utils.StringUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 登陆接口
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @author fate
  * @date 2019-06-07 15:02
  */
+
 @Api("登陆接口")
 @Controller
 @CrossOrigin
@@ -29,10 +32,19 @@ public class LoginController {
 
     private IUserService userService;
     /**
-     * 验证是否成功
+     * 发送的验证码
      */
-    private final static String VAL_CODE="true";
+    private String phoneCode;
 
+    /**
+     * 验证码是否正确
+     */
+    private boolean codeTrue;
+
+    /**
+     * 手机号
+     */
+    private Long phone;
 
     @Autowired
     public LoginController(IUserService userService) {
@@ -48,12 +60,12 @@ public class LoginController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResultData login(User user){
         User queryUser = userService.queryUser(user);
+
         if (queryUser == null){
             return ResultData.of(ErrorCode.LOGIN_ERROR);
         }else {
-
             //随机生成10位的字符串
-            String token = StringUtli.getRandomString(30);
+            String token = RandomStringUtils.random(10);
             //将用户信息转为json
             String userMsg = JSON.toJSONString(queryUser);
             //将token和用户信息存入redis
@@ -74,17 +86,14 @@ public class LoginController {
     }
 
     /**
-     * 发送验证码,5分钟过期
+     * 发送验证码
      * @param user 获取手机号
      */
     @RequestMapping(value = "/phoneCode",method = RequestMethod.POST)
     public ResultData getPhoneCode(User user){
         if (userService.queryUserByPhone(user) == null){
-            String phoneCode= PhoneUtli.phoneCode(user.getPhone() + "");
-            if (phoneCode == null){
-                return ResultData.error();
-            }
-            RedisUtli.addStringCode(user.getPhone()+"",phoneCode);
+            this.phoneCode= PhoneUtli.phoneCode(user.getPhone() + "");
+            this.phone = user.getPhone();
             return ResultData.success();
         }else {
             return ResultData.error();
@@ -97,20 +106,12 @@ public class LoginController {
      * @return 验证码是否相同，返回状态码
      */
     @RequestMapping(value = "/validationCode",method = RequestMethod.POST)
-    public ResultData validationCode(UserCode userCode){
-        System.out.println(userCode);
-
-        String phoneCode = RedisUtli.getString(userCode.getPhone());
-
-        if (phoneCode == null) {
-            return ResultData.of(ErrorCode.FAIL);
-        }
-
-        if (userCode.getCode().equals(phoneCode)){
-            RedisUtli.addString(userCode.getPhone(),"true");
+    public ResultData validationCode(String code){
+        if (phoneCode.equals(code)){
+            codeTrue = true;
             return ResultData.success();
         }else {
-            return ResultData.of(ErrorCode.CODE_ERROR);
+            return ResultData.error();
         }
     }
 
@@ -122,15 +123,16 @@ public class LoginController {
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResultData register(User user){
-        System.out.println(user);
         //判断是否验证码通过
-        if (VAL_CODE.equals(RedisUtli.getString(user.getPhone()+""))){
+        if (codeTrue){
+            //让注册的手机号和发送验证的手机号一致
+            user.setPhone(phone);
             if (userService.registerUser(user)){
                 return  ResultData.success();
             }
         }
         return ResultData.error();
-    }
 
+    }
 
 }

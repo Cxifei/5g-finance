@@ -1,6 +1,7 @@
 package cn.fate.ssm.service;
 
 import cn.fate.ssm.beans.Bill;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -59,6 +60,29 @@ public interface IBillService {
      * @return
      */
     boolean IcancellationOfTransactions(int id);
+
+    /**
+     *
+     * @param bill
+     * @return 是否添加订单成功
+     */
+    boolean addBill(Bill bill);
+
+    /**
+     *
+     * @param id 订单id
+     * @param uid 用户id
+     * @return 是否接单成功
+     */
+    boolean acceptBill(@Param("id") int id,@Param("uid") int uid);
+
+    /**
+     * @param id 订单id
+     * @param status 审核后的订单状态 1表示审核未通过，2表示审核通过
+     * @return 订单是否审核成功（通过，未通过）
+     */
+
+    boolean checkBill(@Param("id") int id, @Param("status") int status);
 
     /**
      * 接单人取消交易

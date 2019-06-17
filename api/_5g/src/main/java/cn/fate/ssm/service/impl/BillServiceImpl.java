@@ -3,6 +3,7 @@ package cn.fate.ssm.service.impl;
 import cn.fate.ssm.beans.Bill;
 import cn.fate.ssm.mapper.BillMapper;
 import cn.fate.ssm.service.IBillService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,14 +16,15 @@ import java.util.List;
  * @author rimi
  * @DATE 2019-06-11 17:26
  */
+
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class BillServiceImpl implements IBillService {
-
     private BillMapper billMapper;
+
     @Autowired
-    public BillServiceImpl(BillMapper billMapper){
-        this.billMapper=billMapper;
+    public BillServiceImpl(BillMapper billMapper) {
+        this.billMapper = billMapper;
     }
 
     /**
@@ -93,6 +95,15 @@ public class BillServiceImpl implements IBillService {
      * @return
      */
     @Override
+    public boolean checkBill(@Param("id") int id, @Param("status") int status) {
+        return billMapper.checkBill(id, status);
+    }
+
+    /**
+     * 发单人取消订单交易
+     * @param id
+     * @return
+     */
     public boolean IcancellationOfTransactions(int id) {
         return billMapper.IcancellationOfTransactions(id)>0;
     }
@@ -126,4 +137,25 @@ public class BillServiceImpl implements IBillService {
     public List<Bill> myReceipt(int id) {
         return billMapper.myReceipt(id);
     }
+
+    /**
+     * 接单人确认交易
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean addBill(Bill bill) {
+        return billMapper.addBill(bill);
+    }
+
+    /**
+     * @param id  订单id
+     * @param uid 用户id
+     * @return 是否接单成功
+     */
+    @Override
+    public boolean acceptBill(int id, int uid) {
+        return billMapper.acceptBill(id,uid);
+    }
+
 }

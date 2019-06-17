@@ -18,8 +18,8 @@
     </resultMap>
 
     <insert id="registerUser" parameterType="cn.fate.ssm.beans.User">
-        insert into f_user (u_id, u_pwd, u_phone,u_name,u_sex)
-        VALUES (0,#{password},#{phone},#{name},#{sex})
+        insert into f_user (u_id, u_pwd, u_phone, u_name, u_sex)
+        VALUES (0, #{password}, #{phone}, #{name}, #{sex})
     </insert>
 
 <!--    UPDATE `customer`.`root` SET `r_id`='1', `r_username`='root', `r_pwd`='root', `r_name`='root' WHERE (`r_id`='1') AND (`r_username`='root');-->
@@ -59,13 +59,18 @@
     </update>
 
     <!--用户登陆验证-->
-    <select id="userQuery" parameterType="cn.fate.ssm.beans.User" resultMap="userMap" >
-        select * from f_user where u_pwd=#{password} and u_phone = #{phone}
+    <select id="userQuery" parameterType="cn.fate.ssm.beans.User" resultMap="userMap">
+        select *
+        from f_user
+        where u_pwd = #{password}
+          and u_phone = #{phone}
     </select>
 
     <!--查询手机号是否存在-->
-    <select id="userQueryByPhone" resultType="cn.fate.ssm.beans.User" resultMap="userMap" >
-        select u_phone from f_user where u_phone = #{phone}
+    <select id="userQueryByPhone" resultType="cn.fate.ssm.beans.User" resultMap="userMap">
+        select u_phone
+        from f_user
+        where u_phone = #{phone}
     </select>
 
 
