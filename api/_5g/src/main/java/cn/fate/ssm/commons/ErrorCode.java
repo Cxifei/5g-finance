@@ -15,6 +15,7 @@ public enum ErrorCode {
     FILE_ERROR(410,"文件异常"),
     LOGIN_ERROR(201,"用户名或密码错误"),
     CODE_ERROR(203,"输入验证码错误"),
+    NOT_LOGIN_ERROR(204,"用户未登陆"),
 
     DELETE_ERROR(305,"取消订单失败"),
     TRANSACTION_SUCCESS(300,"交易成功"),

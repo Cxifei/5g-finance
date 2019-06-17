@@ -47,4 +47,14 @@ public class User {
      */
     private String address;
 
+    /**
+     * 头像
+     */
+    private String head;
+
+    /**
+     * 是否认证
+     */
+    private String validation;
+
 }

@@ -13,6 +13,8 @@
         <result property="name" column="u_name"/>
         <result property="msg" column="u_msg"/>
         <result property="address" column="u_address"/>
+        <result property="head" column="u_head"/>
+        <result property="validation" column="u_validation"/>
     </resultMap>
 
     <insert id="registerUser" parameterType="cn.fate.ssm.beans.User">
@@ -26,7 +28,13 @@
         <trim prefix="set" suffixOverrides=",">
 
             <if test="password != null and password != ''">
-                 u_pwd = #{password} ,
+                u_pwd = #{password} ,
+            </if>
+            <if test="validation != null and validation != ''">
+                u_validation = #{validation} ,
+            </if>
+            <if test="msg != null and msg != ''">
+                u_msg = #{msg} ,
             </if>
             <if test="address != null and address != ''">
                  u_address = #{address} ,
@@ -42,6 +50,9 @@
             </if>
             <if test="phone != null and phone != ''">
                 u_phone = #{phone},
+            </if>
+            <if test="head != null and head != ''">
+                u_head = #{head},
             </if>
         </trim>
         WHERE u_id = #{id};

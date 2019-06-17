@@ -4,6 +4,7 @@ import cn.fate.ssm.beans.User;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
 import cn.fate.ssm.service.IUserService;
+import cn.fate.ssm.utils.GetUserByToken;
 import cn.fate.ssm.utils.RedisUtli;
 import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.Api;
@@ -32,12 +33,20 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 
 public class UserController {
+
     private IUserService service;
+
+
     @Autowired
     public UserController(IUserService service) {
         this.service = service;
     }
 
+    /**
+     * 展示用户的信息
+     * @param headers 携带的token
+     * @return 用户的信息和状态码
+     */
 
     @ApiImplicitParam(paramType = "header",name = "token")
     @RequestMapping(value = "/showUser")
@@ -45,30 +54,33 @@ public class UserController {
         String code = headers.getFirst("token");
         System.out.println(code);
         if (code == null){
-            return ResultData.of(ErrorCode.FAIL);
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
-        String user = RedisUtli.getString(code);
-        User user1 = JSON.parseObject(user, User.class);
-        return ResultData.of(user1);
+        User user = JSON.parseObject(RedisUtli.getString(code), User.class);
+        if (user.getHead() != null&& !"".equals(user.getHead())){
+            user.setHead(user.getHead());
+        }
+        return ResultData.of(user);
     }
 
+
+    /**
+     * 用于修改用户信息
+     *
+     * @param user 要修改的信息
+     * @param headers 携带token
+     * @return 修改的状态码
+     */
     @ApiImplicitParam(paramType = "header",name = "token")
     @RequestMapping(value = "/changeUser",method = RequestMethod.POST)
     public ResultData changeUser(User user,@RequestHeader HttpHeaders headers){
 
-        String code = headers.getFirst("token");
-
-        if (code == null){
-            return ResultData.of(ErrorCode.FAIL);
+        User userByToken = GetUserByToken.getUserByToken(headers);
+        if (userByToken==null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
-
-        String user2 = RedisUtli.getString(code);
-        //获取正在登陆的用户的id
-        User user1 = JSON.parseObject(user2, User.class);
-        user.setId(user1.getId());
-        if (service.changeUser(user)){
-            return ResultData.success();
-        }
-        return ResultData.of(ErrorCode.FAIL);
+        user.setId(userByToken.getId());
+        userByToken.setMsg(user.getMsg());
+        return service.changeUser(user)?ResultData.of(userByToken):ResultData.of(ErrorCode.FAIL);
     }
 }

@@ -48,13 +48,12 @@ public class LoginController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResultData login(User user){
         User queryUser = userService.queryUser(user);
-
         if (queryUser == null){
             return ResultData.of(ErrorCode.LOGIN_ERROR);
         }else {
+
             //随机生成10位的字符串
             String token = StringUtli.getRandomString(30);
-            System.out.println(token);
             //将用户信息转为json
             String userMsg = JSON.toJSONString(queryUser);
             //将token和用户信息存入redis

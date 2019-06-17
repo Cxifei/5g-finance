@@ -151,6 +151,15 @@
       <version>${commons-fileupload.version}</version>
     </dependency>
 
+<!--百度人工智能-->
+    <!-- https://mvnrepository.com/artifact/com.baidu.aip/java-sdk -->
+    <dependency>
+      <groupId>com.baidu.aip</groupId>
+      <artifactId>java-sdk</artifactId>
+      <version>4.8.0</version>
+    </dependency>
+
+
     <!--solr客户端solrj的依赖 -->
     <dependency>
       <groupId>org.apache.solr</groupId>
@@ -168,8 +177,7 @@
       </exclusions>
     </dependency>
 
-
-<!--    &lt;!&ndash;fastdfs&ndash;&gt;-->
+    <!--    &lt;!&ndash;fastdfs&ndash;&gt;-->
 <!--    <dependency>-->
 <!--      <groupId>com.github.tobato</groupId>-->
 <!--      <artifactId>fastdfs-client</artifactId>-->
@@ -182,24 +190,23 @@
       <artifactId>fastdfs-client-java</artifactId>
       <version>1.27-SNAPSHOT</version>
     </dependency>
-
   </dependencies>
 
   <!--统一tomcat版本-->
   <build>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.tomcat.maven</groupId>
-      <artifactId>tomcat7-maven-plugin</artifactId>
-      <version>2.2</version>
-      <configuration>
-        <port>8081</port>
-        <path>/</path>
-        <uriEncoding>UTF-8</uriEncoding>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <port>8080</port>
+          <path>/</path>
+          <uriEncoding>UTF-8</uriEncoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 
 

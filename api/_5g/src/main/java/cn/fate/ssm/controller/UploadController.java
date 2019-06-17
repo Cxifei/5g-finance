@@ -1,16 +1,22 @@
 package cn.fate.ssm.controller;
 
+import cn.fate.ssm.beans.User;
 import cn.fate.ssm.commons.ErrorCode;
 import cn.fate.ssm.commons.ResultData;
+import cn.fate.ssm.service.IUserService;
+import cn.fate.ssm.utils.Base64Util;
 import cn.fate.ssm.utils.FastDfsClientWrapper;
+import cn.fate.ssm.utils.RedisUtli;
+import cn.fate.ssm.utils.RequestBaiduUtli;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * 文件上传的servlet
@@ -26,18 +32,100 @@ import java.io.IOException;
 @ResponseBody
 public class UploadController {
 
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
-    public ResultData upload(@RequestParam("file") MultipartFile file, HttpServletRequest request){
+    private IUserService service;
+
+    public UploadController(IUserService service) {
+        this.service = service;
+    }
+
+    /**
+     *  文件上传的公共方法
+     * /@RequestMapping(value = "/uploadTest",method = RequestMethod.POST)
+     * @param file 上传的文件
+     * @return 返回文件的上传的路径
+     */
+
+    private String upload(MultipartFile file){
         if (file.isEmpty()){
-            return ResultData.of(ErrorCode.FILE_ERROR);
+            return null;
         }
         //获取文件名称
-        String originalFilename = file.getOriginalFilename();
         String[] r = FastDfsClientWrapper.upload(file);
-        for (String s : r) {
-            System.out.println(s);
-        }
-        return ResultData.success();
-
+        //获取的文件的路径
+        return  "/"+r[0]+"/"+r[1];
     }
+
+
+    /**
+     * 微信头像修改
+     *
+     * @param headers 请求头
+     * @param baseImg 图片的base64
+     * @return 响应的状态
+     */
+    @RequestMapping(value = "/headUpload",method = RequestMethod.POST)
+    public ResultData headUpload(@RequestHeader HttpHeaders headers,String baseImg){
+        //获取token
+        String token = headers.getFirst("token");
+
+        if (token == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        //获取正在登陆的用户的信息
+        User user = JSON.parseObject(RedisUtli.getString(token), User.class);
+        //返回的图片的路径
+        String imgPath = upload(Base64Util.base64ToMultipart(baseImg));
+        System.out.println(user);
+        //修改用户信息
+        user.setHead(imgPath);
+        //发送到数据库
+        if (service.changeUser(user)){
+            return ResultData.of(user);
+        }else {
+            return ResultData.of(ErrorCode.FILE_ERROR);
+        }
+    }
+
+
+    @RequestMapping(value = "/validationIdCard",method = RequestMethod.POST)
+    public ResultData validationIdCard(String baseImg,@RequestHeader HttpHeaders headers){
+        //获取token
+        String token = headers.getFirst("token");
+        if (token == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        //获取正在登陆的用户的信息
+        User user = JSON.parseObject(RedisUtli.getString(token), User.class);
+        JSONObject jsonObject = RequestBaiduUtli.requestBaidu(baseImg);
+        if (RequestBaiduUtli.validationIsOk(jsonObject)){
+            //这里还要获取值，修改数据
+            //---------------------
+            System.out.println(jsonObject);
+
+            JSONObject wordsResult = jsonObject.getJSONObject("words_result");
+
+            String name = wordsResult.getJSONObject("姓名").getString("words");
+            String address = wordsResult.getJSONObject("住址").getString("words");
+            String idCard = wordsResult.getJSONObject("公民身份号码").getString("words");
+            String sex = wordsResult.getJSONObject("性别").getString("words");
+            //重置用户信息
+            user.setSex(sex);
+            user.setAddress(address);
+            user.setIdCard(idCard);
+            user.setName(name);
+            //更改为已经认证
+            user.setValidation("1");
+
+
+            if (service.changeUser(user)){
+                return ResultData.success();
+            }else {
+                return ResultData.error();
+            }
+            //---------------------
+        }else {
+            return ResultData.of(ErrorCode.FILE_ERROR);
+        }
+    }
+
 }
