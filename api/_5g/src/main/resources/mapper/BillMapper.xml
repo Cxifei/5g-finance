@@ -51,7 +51,7 @@
     </update>
     <!--根据贷款类型查询相关订单-->
     <select id="selectBillListByType" resultMap="billMapper">
-        select b.*,u.u_name from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type};
+        select b.*,u.u_name from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type} and j_id = 0 and f_status = 2;
     </select>
 
 
