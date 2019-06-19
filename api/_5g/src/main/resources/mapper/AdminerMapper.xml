@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.fate.ssm.mapper.AdminerMapper">
+
+
+    <resultMap id="adminerMap" type="cn.fate.ssm.beans.Adminer">
+        <id property="aid" column="a_id"/>
+        <result property="account" column="account"/>
+        <result property="psw" column="psw"/>
+    </resultMap>
+
+
+    <!--管理员登陆验证-->
+    <select id="selectAdminer" parameterType="adminer" resultMap="adminerMap">
+        select *
+        from adminer
+        where account = #{account}
+          and psw = #{psw}
+    </select>
+
+
+
+</mapper>
