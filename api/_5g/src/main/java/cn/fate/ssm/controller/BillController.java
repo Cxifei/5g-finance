@@ -29,8 +29,8 @@ import java.util.List;
  */
 @Api("订单接口")
 @Controller
-@CrossOrigin
 @ResponseBody
+@CrossOrigin
 public class BillController {
 
     private IBillService iBillService;
@@ -74,6 +74,7 @@ public class BillController {
                 b2 = true;
             }
         }
+
         if(b && b2) {
             if (iBillService.addBill(bill)) {
                 return ResultData.success();
@@ -81,6 +82,7 @@ public class BillController {
         }
         return ResultData.of(ErrorCode.SAVEBILL_ERROR);
     }
+
 
     /**
      *
@@ -101,7 +103,6 @@ public class BillController {
     }
 
 
-
     @RequestMapping(value = "/checkBill",method = RequestMethod.POST)
     public ResultData checkBill(int id, int status){
 
@@ -113,6 +114,9 @@ public class BillController {
         }
         return ResultData.of(ErrorCode.CHECKBILL_ERROR);
     }
+
+
+    @ResponseBody
     @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)
     public ResultData findBillListByType(@RequestParam("type") String type){
 
