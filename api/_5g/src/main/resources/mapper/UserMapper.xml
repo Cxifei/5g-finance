@@ -73,6 +73,9 @@
         from f_user
         where u_phone = #{phone}
     </select>
+    <select id="userById" resultType="cn.fate.ssm.beans.User" resultMap="userMap">
+        select * from f_user where u_id=#{id}
+    </select>
 
 
 </mapper>

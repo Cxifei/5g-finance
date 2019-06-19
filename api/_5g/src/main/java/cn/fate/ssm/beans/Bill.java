@@ -93,7 +93,7 @@ public class Bill implements Serializable {
     /**
      *  出款/类型（上市公司、票据、房地产 三个单据类型的字段为 类型）
      */
-    private String prototype;
+    private String prototypes;
     /**
      *  风控/ 票据类型的单子 此字段表示利息
      */
@@ -126,5 +126,10 @@ public class Bill implements Serializable {
      *  单据状态(默认为未审核 0，审核未通过 1，审核通过 2)
      */
     private int status;
+
+    /**
+     * 电话
+     */
+    private Long phone;
 
 }

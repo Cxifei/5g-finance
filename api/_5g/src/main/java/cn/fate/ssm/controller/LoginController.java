@@ -60,13 +60,12 @@ public class LoginController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResultData login(User user){
-
-        System.out.println("登陆用户原始数据"+user);
         User queryUser = userService.queryUser(user);
-        System.out.println("查询的用户信息"+queryUser);
         if (queryUser == null){
             return ResultData.of(ErrorCode.LOGIN_ERROR);
         }else {
+
+            System.out.println("登陆的login用户信息"+queryUser);
             //随机生成10位的字符串
             String token = StringUtli.getRandomString(30);
             System.out.println(token);

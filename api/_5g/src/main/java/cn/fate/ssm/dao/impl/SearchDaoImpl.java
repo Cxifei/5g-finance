@@ -81,7 +81,7 @@ public class SearchDaoImpl implements ISearchDao {
             bill.setHouseprice((Double) doc.get("bill_houseprice"));
             bill.setCreditplus((String) doc.get("bill_creditplus"));
             bill.setMortqaqed((String) doc.get("bill_mortqaqed"));
-            bill.setPrototype((String) doc.get("bill_prototype"));
+            bill.setPrototypes((String) doc.get("bill_prototype"));
             bill.setRisk((String) doc.get("bill_risk"));
             bill.setCommossion((String) doc.get("bill_commossion"));
             bill.setCreatetime((String) doc.get("bill_createtime"));

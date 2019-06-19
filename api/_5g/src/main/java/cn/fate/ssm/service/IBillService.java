@@ -105,5 +105,7 @@ public interface IBillService {
      */
     List<Bill> myReceipt(int id);
 
+    boolean quxiao(int id);
+
 
 }

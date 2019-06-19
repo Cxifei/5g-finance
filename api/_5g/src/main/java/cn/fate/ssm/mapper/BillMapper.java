@@ -108,4 +108,6 @@ public interface BillMapper {
      */
 
     boolean checkBill(@Param("id") int id, @Param("status") int status);
+
+    int quxiao(int id);
 }

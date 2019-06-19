@@ -67,7 +67,7 @@ public class UploadController {
     public ResultData headUpload(@RequestHeader HttpHeaders headers,String baseImg){
         //获取token
         String token = headers.getFirst("token");
-
+        System.out.println(token);
         if (token == null){
             return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
@@ -75,12 +75,15 @@ public class UploadController {
         User user = JSON.parseObject(RedisUtli.getString(token), User.class);
         //返回的图片的路径
         String imgPath = upload(Base64Util.base64ToMultipart(baseImg));
-        System.out.println(user);
         //修改用户信息
         user.setHead(imgPath);
+        System.out.println("头像修改的1"+user);
         //发送到数据库
         if (service.changeUser(user)){
-            return ResultData.of(user);
+            User user1 = service.queryUserById(user);
+            String userMsg = JSON.toJSONString(user1);
+            RedisUtli.addString(token, userMsg);
+            return ResultData.of(user1);
         }else {
             return ResultData.of(ErrorCode.FILE_ERROR);
         }
@@ -117,7 +120,10 @@ public class UploadController {
             System.out.println(user);
 
             if (service.changeUser(user)){
-                return ResultData.of(user);
+                User user1 = service.queryUserById(user);
+                String userMsg = JSON.toJSONString(user1);
+                RedisUtli.addString(token,userMsg);
+                return ResultData.of(user1);
             }else {
                 return ResultData.error();
             }

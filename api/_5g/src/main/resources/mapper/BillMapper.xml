@@ -23,7 +23,7 @@
         <result property="houseprice" column="f_houseprice"/>
         <result property="creditplus" column="f_creditplus"/>
         <result property="mortqaqed" column="f_mortqaqed"/>
-        <result property="prototype" column="f_prototype"/>
+        <result property="prototypes" column="f_prototype"/>
         <result property="risk" column="f_risk"/>
         <result property="commossion" column="f_commossion"/>
         <result property="jid" column="j_id"/>
@@ -32,6 +32,7 @@
         <result property="createtime" column="f_createtime"/>
         <result property="accepttime" column="f_accepttime"/>
         <result property="status" column="f_status"/>
+        <result property="phone" column="u_phone"/>
     </resultMap>
 
     <!--用户发布订单-->
@@ -51,13 +52,13 @@
     </update>
     <!--根据贷款类型查询相关订单-->
     <select id="selectBillListByType" resultMap="billMapper">
-        select b.*,u.u_name from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type} and j_id = 0 and f_status = 2;
+        select b.*,u.u_name,u_phone from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type};
     </select>
 
 
     <!--查询最新的20个订单-->
     <select id="findNewestBill"  resultMap="billMapper" resultType="cn.fate.ssm.beans.Bill">
-      select * from financial.bill inner join f_user on bill.u_id=f_user.u_id where bill.j_id=-1 and bill.f_status=2 order by bill.f_createtime desc,bill.f_id desc limit 0,20;
+      select * from financial.bill inner join f_user on bill.u_id=f_user.u_id where bill.j_id=0 and bill.f_status=2 order by bill.f_createtime desc,bill.f_id desc limit 0,20;
     </select>
 
     <!--根据id查询订单-->
@@ -95,7 +96,10 @@
     <update id="IcancellationOfTransactions">
         update financial.bill set u_uconfirm=0 where f_id=#{id};
     </update>
-
+    <!--接单人取消接单-->
+    <update id="quxiao">
+        update financial.bill set j_id=0 where f_id=#{id};
+    </update>
     <!--接单人取消交易-->
     <update id="RcancellationOfTransactions">
         update financial.bill set j_jconfirm=0 where f_id=#{id};

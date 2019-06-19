@@ -57,6 +57,7 @@ public class UserController {
             return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
         User user = JSON.parseObject(RedisUtli.getString(code), User.class);
+        System.out.println("showUser"+user);
         if (user.getHead() != null&& !"".equals(user.getHead())){
             user.setHead(user.getHead());
         }
@@ -79,8 +80,19 @@ public class UserController {
         if (userByToken==null){
             return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
+        String token = headers.getFirst("token");
+
         user.setId(userByToken.getId());
         userByToken.setMsg(user.getMsg());
-        return service.changeUser(user)?ResultData.of(userByToken):ResultData.of(ErrorCode.FAIL);
+        if (service.changeUser(user)){
+            User user1 = service.queryUserById(user);
+            String userMsg = JSON.toJSONString(user1);
+            RedisUtli.addString(token, userMsg);
+            return ResultData.of(user1);
+        }else {
+            return ResultData.of(ErrorCode.FAIL);
+        }
+
+
     }
 }

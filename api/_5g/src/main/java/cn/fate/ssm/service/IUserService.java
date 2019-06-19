@@ -40,4 +40,6 @@ public interface IUserService {
      * @return 受影响 的行数
      */
     boolean changeUser(User user);
+
+    User queryUserById(User user);
 }

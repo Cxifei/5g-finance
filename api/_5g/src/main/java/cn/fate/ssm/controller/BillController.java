@@ -66,7 +66,7 @@ public class BillController {
                     && bill.getRate() != null && !"".equals(bill.getRate())
                     && bill.getCycle() != null && !"".equals(bill.getCycle())
                     && bill.getCreditplus() != null && !"".equals(bill.getCreditplus())
-                    && bill.getPrototype() != null && !"".equals(bill.getPlot())
+                    && bill.getPrototypes() != null && !"".equals(bill.getPlot())
                     && bill.getRisk() != null && !"".equals(bill.getRisk())
                     && bill.getCommossion() != null && !"".equals(bill.getCommossion())
             ;
@@ -82,14 +82,25 @@ public class BillController {
         return ResultData.of(ErrorCode.SAVEBILL_ERROR);
     }
 
+    /**
+     *
+     * @param
+     * @return 是否接单成功
+     */
     @RequestMapping(value = "/acceptBill",method = RequestMethod.POST)
-    public ResultData acceptBill(int id, int uid){
-        boolean isok = iBillService.acceptBill(id,uid);
+    public ResultData acceptBill(@RequestHeader HttpHeaders headers,Bill bill){
+        User userByToken = GetUserByToken.getUserByToken(headers);
+        if (userByToken == null){
+            return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        boolean isok = iBillService.acceptBill((Integer.parseInt(bill.getId())) ,userByToken.getId().intValue());
         if(isok){
             return ResultData.success();
         }
         return ResultData.of(ErrorCode.ACCEPTBILL_ERROR);
     }
+
+
 
     @RequestMapping(value = "/checkBill",method = RequestMethod.POST)
     public ResultData checkBill(int id, int status){
@@ -128,15 +139,14 @@ public class BillController {
 
     /**
      * 发单人确认交易
-     * @param id
+     * @param
      * @return
      */
 
     @RequestMapping(value = "/issuerConfirm",method = RequestMethod.POST)
-    public ResultData issuerConfirm(int id){
+    public ResultData issuerConfirm(Bill bill){
 
-        Bill bill = iBillService.findById(id);
-        boolean b = iBillService.issuerConfirm(id);
+        boolean b = iBillService.issuerConfirm(Integer.parseInt(bill.getId()));
         if (b){
             if (bill.getJconfirm()==1){
                 return ResultData.of(ErrorCode.TRANSACTION_SUCCESS);
@@ -150,15 +160,14 @@ public class BillController {
 
     /**
      * 接单人确认交易
-     * @param id
+     * @param
      * @return
      */
 
     @RequestMapping(value = "/receiverConfirm",method = RequestMethod.POST)
-    public ResultData receiverConfirm(int id){
+    public ResultData receiverConfirm(Bill bill){
 
-        Bill bill = iBillService.findById(id);
-        boolean b = iBillService.receiverConfirm(id);
+        boolean b = iBillService.receiverConfirm(Integer.parseInt(bill.getId()));
         if (b){
             if(bill.getUconfirm()==1){
                 return ResultData.of(ErrorCode.TRANSACTION_SUCCESS);
@@ -172,36 +181,47 @@ public class BillController {
 
     /**
      * 发单人取消订单
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value = "/cancelBill",method = RequestMethod.POST)
-    public ResultData cancelBill(int id){
-        boolean b = iBillService.cancelBill(id);
+    public ResultData cancelBill(Bill bill){
+        boolean b = iBillService.cancelBill(Integer.parseInt(bill.getId()));
         return b?ResultData.success():ResultData.of(ErrorCode.DELETE_ERROR);
 
     }
 
     /**
+     * 接单人取消接单
+     * @param
+     * @return
+     */
+    @RequestMapping(value = "/CancellationOfOrders",method = RequestMethod.POST)
+    public ResultData CancellationOfOrders(Bill bill){
+        boolean b=iBillService.quxiao(Integer.parseInt(bill.getId()));
+        return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
+    }
+
+    /**
      * 发单人取消交易
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value = "/iCancellationOfTransactions",method = RequestMethod.POST)
-    public ResultData IcancellationOfTransactions(int id){
-        boolean b = iBillService.IcancellationOfTransactions(id);
+    public ResultData IcancellationOfTransactions(Bill bill){
+        boolean b = iBillService.IcancellationOfTransactions(Integer.parseInt(bill.getId()));
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
     }
 
 
     /**
      * 接单人取消交易
-     * @param id
+     * @param
      * @return
      */
     @RequestMapping(value = "/rCancellationOfTransactions",method = RequestMethod.POST)
-    public ResultData RcancellationOfTransactions(int id){
-        boolean b = iBillService.RcancellationOfTransactions(id);
+    public ResultData RcancellationOfTransactions(Bill bill){
+        boolean b = iBillService.RcancellationOfTransactions(Integer.parseInt(bill.getId()));
         return b?ResultData.success():ResultData.of(ErrorCode.FAIL);
     }
 
@@ -218,6 +238,9 @@ public class BillController {
         }
         int id=userByToken.getId().intValue();
         List<Bill> list=iBillService.myInvoice(id);
+               for(Bill bill:list){
+            System.out.println(bill.getId());
+        }
         return ResultData.of(list);
 
 

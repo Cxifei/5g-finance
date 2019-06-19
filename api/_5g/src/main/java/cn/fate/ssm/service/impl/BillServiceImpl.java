@@ -138,6 +138,11 @@ public class BillServiceImpl implements IBillService {
         return billMapper.myReceipt(id);
     }
 
+    @Override
+    public boolean quxiao(int id) {
+        return billMapper.quxiao(id)>0;
+    }
+
     /**
      * 接单人确认交易
      * @param id
@@ -153,6 +158,7 @@ public class BillServiceImpl implements IBillService {
      * @param uid 用户id
      * @return 是否接单成功
      */
+
     @Override
     public boolean acceptBill(int id, int uid) {
         return billMapper.acceptBill(id,uid);

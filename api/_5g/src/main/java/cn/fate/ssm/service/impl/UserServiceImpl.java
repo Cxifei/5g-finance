@@ -86,5 +86,10 @@ public class UserServiceImpl implements IUserService {
         return mapper.changeUser(user)>0;
     }
 
+    @Override
+    public User queryUserById(User user) {
+        return mapper.userById(user);
+    }
+
 
 }

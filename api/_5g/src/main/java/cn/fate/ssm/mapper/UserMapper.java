@@ -9,6 +9,15 @@ import cn.fate.ssm.beans.User;
  * @date 2019-06-07 15:28
  */
 public interface UserMapper {
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    User userById(User user);
+
+
     /**
      * 登陆验证
      *
