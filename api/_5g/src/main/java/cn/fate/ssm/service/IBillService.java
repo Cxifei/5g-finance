@@ -74,7 +74,7 @@ public interface IBillService {
      * @param uid 用户id
      * @return 是否接单成功
      */
-    boolean acceptBill(@Param("id") int id,@Param("uid") int uid);
+    boolean acceptBill(@Param("id") int id,@Param("uid") int uid,@Param("accepttime") String accepttime);
 
     /**
      * 接单人取消交易

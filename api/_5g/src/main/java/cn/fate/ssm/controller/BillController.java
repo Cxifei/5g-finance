@@ -96,7 +96,10 @@ public class BillController {
         if (userByToken == null){
             return ResultData.of(ErrorCode.NOT_LOGIN_ERROR);
         }
-        boolean isok = iBillService.acceptBill((Integer.parseInt(bill.getId())) ,userByToken.getId().intValue());
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String time = simpleDateFormat.format(date);
+        boolean isok = iBillService.acceptBill((Integer.parseInt(bill.getId())) ,userByToken.getId().intValue(),time);
         if(isok){
             return ResultData.success();
         }

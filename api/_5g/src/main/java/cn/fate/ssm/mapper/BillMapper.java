@@ -99,7 +99,7 @@ public interface BillMapper {
      * @param uid 接单用户id
      * @return 是否接单成功
      */
-    boolean acceptBill(@Param("id") int id, @Param("uid") int uid);
+    boolean acceptBill(@Param("id") int id, @Param("uid") int uid,@Param("accepttime") String accepttime);
 
     int quxiao(int id);
 }

@@ -44,7 +44,7 @@
     </insert>
     <!--用户接单-->
     <update id="acceptBill">
-        update bill set j_id = #{uid} where f_id = #{id}
+        update bill set j_id = #{uid},f_accepttime = #{accepttime}  where f_id = #{id}
     </update>
 
     <!--根据贷款类型查询相关订单-->

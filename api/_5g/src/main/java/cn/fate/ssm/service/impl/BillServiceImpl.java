@@ -150,8 +150,8 @@ public class BillServiceImpl implements IBillService {
      */
 
     @Override
-    public boolean acceptBill(int id, int uid) {
-        return billMapper.acceptBill(id,uid);
+    public boolean acceptBill(int id, int uid, String accepttime) {
+        return billMapper.acceptBill(id,uid,accepttime);
     }
 
 }
