@@ -57,9 +57,10 @@ public class BillController {
         bill.setUid(userByToken.getId().intValue());
         boolean b = false;
         boolean b2 = true;
-
-
-        bill.setCreatetime("2019-06-17");
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String time = simpleDateFormat.format(date);
+        bill.setCreatetime(time);
         if(bill.getType() != null && !"".equals(bill.getType())){
             b = bill.getAddress() != null && !"".equals(bill.getAddress())
                     && bill.getAmount() != null && !"".equals(bill.getAmount())
@@ -101,20 +102,6 @@ public class BillController {
         }
         return ResultData.of(ErrorCode.ACCEPTBILL_ERROR);
     }
-
-
-    @RequestMapping(value = "/checkBill",method = RequestMethod.POST)
-    public ResultData checkBill(int id, int status){
-
-        if(status == 1 || status == 2) {
-            boolean isok = iBillService.checkBill(id, status);
-            if (isok) {
-                return ResultData.success();
-            }
-        }
-        return ResultData.of(ErrorCode.CHECKBILL_ERROR);
-    }
-
 
     @ResponseBody
     @RequestMapping(value = "/findBillListByType",method = RequestMethod.GET)

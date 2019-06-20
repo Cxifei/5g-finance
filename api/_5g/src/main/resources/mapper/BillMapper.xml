@@ -39,17 +39,14 @@
     <insert id="addBill" parameterType="cn.fate.ssm.beans.Bill">
         insert into bill values (0,#{uid},#{type},#{address},#{amount},#{instructions},#{valuation}
                                 ,#{rate},#{levorprofit},#{cycle},#{used},#{editor},#{area},#{plot},#{floorprice}
-                                ,#{houseprice},#{creditplus},#{mortqaqed},#{prototype},#{risk},#{commossion}
+                                ,#{houseprice},#{creditplus},#{mortqaqed},#{prototypes},#{risk},#{commossion}
                                 ,#{jid},0,0,#{createtime},#{accepttime},0);
     </insert>
     <!--用户接单-->
     <update id="acceptBill">
         update bill set j_id = #{uid} where f_id = #{id}
     </update>
-    <!--后台审核订单-->
-    <update id="checkBill">
-        update bill set f_status = #{status} where f_id = #{id}
-    </update>
+
     <!--根据贷款类型查询相关订单-->
     <select id="selectBillListByType" resultMap="billMapper">
         select b.*,u.u_name,u_phone from bill b left join f_user u on b.u_id = u.u_id where f_type = #{type} and j_id = 0 and f_status = 2;

@@ -24,7 +24,9 @@ public enum ErrorCode {
     RTRANSACTION_SUCCESS(302,"确认交易成功，等待发单人确认交易"),
     SAVEBILL_ERROR(500,"创建订单失败"),
     ACCEPTBILL_ERROR(500,"接单失败"),
-    CHECKBILL_ERROR(500,"审核单据失败")
+    CHECKBILL_ERROR(500,"审核单据失败"),
+    DELETEBILL_STATUS_ERROR(500,"已成交的单据无法删除"),
+    DELETEBILL_ERROR(500,"删除单据失败")
     ;
 
 

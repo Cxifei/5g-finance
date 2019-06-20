@@ -101,13 +101,5 @@ public interface BillMapper {
      */
     boolean acceptBill(@Param("id") int id, @Param("uid") int uid);
 
-    /**
-     * @param id 订单id
-     * @param status 审核后的订单状态 1表示审核未通过，2表示审核通过
-     * @return 单据是否审核成功
-     */
-
-    boolean checkBill(@Param("id") int id, @Param("status") int status);
-
     int quxiao(int id);
 }

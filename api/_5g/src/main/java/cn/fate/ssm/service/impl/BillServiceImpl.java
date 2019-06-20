@@ -94,16 +94,6 @@ public class BillServiceImpl implements IBillService {
      * @param id
      * @return
      */
-    @Override
-    public boolean checkBill(@Param("id") int id, @Param("status") int status) {
-        return billMapper.checkBill(id, status);
-    }
-
-    /**
-     * 发单人取消订单交易
-     * @param id
-     * @return
-     */
     public boolean IcancellationOfTransactions(int id) {
         return billMapper.IcancellationOfTransactions(id)>0;
     }

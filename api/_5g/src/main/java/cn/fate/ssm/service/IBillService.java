@@ -77,14 +77,6 @@ public interface IBillService {
     boolean acceptBill(@Param("id") int id,@Param("uid") int uid);
 
     /**
-     * @param id 订单id
-     * @param status 审核后的订单状态 1表示审核未通过，2表示审核通过
-     * @return 订单是否审核成功（通过，未通过）
-     */
-
-    boolean checkBill(@Param("id") int id, @Param("status") int status);
-
-    /**
      * 接单人取消交易
      * @param id
      * @return
