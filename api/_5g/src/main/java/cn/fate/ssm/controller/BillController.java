@@ -34,7 +34,14 @@ import java.util.List;
 public class BillController {
 
     private IBillService iBillService;
-    private static final String BILL_TYPE = "过桥";
+    private static final String BILL_TYPE1 = "过桥";
+    private static final String BILL_TYPE2 = "个贷";
+    private static final String BILL_TYPE3 = "企贷";
+    private static final String BILL_TYPE4 = "票据";
+    private static final String BILL_TYPE5 = "上市公司";
+    private static final String BILL_TYPE6 = "国企";
+    private static final String BILL_TYPE7 = "房地产";
+    private static final String BILL_TYPE8 = "摆账";
 
     @Autowired
     public BillController(IBillService billService){
@@ -56,7 +63,7 @@ public class BillController {
         }
         bill.setUid(userByToken.getId().intValue());
         boolean b = false;
-        boolean b2 = true;
+        boolean b2 = false;
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String time = simpleDateFormat.format(date);
@@ -70,9 +77,40 @@ public class BillController {
                     && bill.getPrototypes() != null && !"".equals(bill.getPlot())
                     && bill.getRisk() != null && !"".equals(bill.getRisk())
                     && bill.getCommossion() != null && !"".equals(bill.getCommossion())
+                    && bill.getPhone() != null && !"".equals(bill.getPhone())
+                    && bill.getUid() != null && !"".equals(bill.getUid())
             ;
-            if(BILL_TYPE.equals(bill.getType())){
-                b2 = true;
+            if(BILL_TYPE1.equals(bill.getType())){
+                b2 = bill.getValuation() != null && !"".equals(bill.getValuation())
+                        && bill.getMortqaqed()!= null && !"".equals(bill.getMortqaqed());
+            }else if(BILL_TYPE2.equals(bill.getType())){
+                b2 = bill.getMortqaqed() != null && !"".equals(bill.getMortqaqed())
+                    && bill.getValuation() != null && !"".equals(bill.getValuation())
+                    && bill.getUsed() != null && !"".equals(bill.getUsed());
+            }else if(BILL_TYPE3.equals(bill.getType())){
+                b2 = bill.getMortqaqed() != null && !"".equals(bill.getMortqaqed())
+                        && bill.getValuation() != null && !"".equals(bill.getValuation())
+                        && bill.getUsed() != null && !"".equals(bill.getUsed());
+            }else if(BILL_TYPE4.equals(bill.getType())){
+                b2 = bill.getCycle() != null && !"".equals(bill.getCycle());
+            }else if(BILL_TYPE5.equals(bill.getType())){
+                b2 = bill.getMortqaqed() != null && !"".equals(bill.getMortqaqed())
+                        && bill.getValuation() != null && !"".equals(bill.getValuation())
+                        && bill.getUsed() != null && !"".equals(bill.getUsed());
+            }else if(BILL_TYPE6.equals(bill.getType())){
+                b2 = bill.getMortqaqed() != null && !"".equals(bill.getMortqaqed())
+                        && bill.getUsed() != null && !"".equals(bill.getUsed());
+            }else if(BILL_TYPE7.equals(bill.getType())){
+                b2 = bill.getMortqaqed() != null && !"".equals(bill.getMortqaqed())
+                    && bill.getArea() > 0 && !"".equals(bill.getArea())
+                    && bill.getPlot() != null && !"".equals(bill.getPlot())
+                    && bill.getValuation() != null && !"".equals(bill.getValuation())
+                    && bill.getFloorprice() > 0 && !"".equals(bill.getFloorprice())
+                    && bill.getHouseprice() > 0 && !"".equals(bill.getHouseprice())
+                    && bill.getUsed() != null && !"".equals(bill.getUsed())
+                       ;
+            }else if(BILL_TYPE8.equals(bill.getType())){
+                b2 = bill.getUsed() != null && !"".equals(bill.getUsed());
             }
         }
 

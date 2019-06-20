@@ -21,7 +21,7 @@ public class Bill implements Serializable {
     /**
      * 用户id
      */
-    private int uid;
+    private Integer uid;
     /**
      *  用户姓名
      */
